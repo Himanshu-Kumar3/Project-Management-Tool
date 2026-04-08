@@ -3,12 +3,14 @@ const mongoose = require("mongoose");
 const workspaceSchema = new mongoose.Schema({
       name : {
             type:String,
+            trim:true,
             required:true,
             maxlength:20,
             minlength:4
       },
       slug:{
             type:String,
+            trim:true,
             required:true,
             maxlength:20,
             minlength:4
