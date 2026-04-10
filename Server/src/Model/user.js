@@ -8,12 +8,14 @@ const userSchema = new mongoose.Schema({
             type: String,
             required : true,
             minlength:4,
-            maxlength:12 
+            maxlength:12 ,
+            trim:true
       },lastName:{
              type: String,
             required : true,
             minlength:4,
-            maxlength:12 
+            maxlength:12,
+            trim :true 
       }
       , emailId:{
             type:String,
