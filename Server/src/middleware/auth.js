@@ -4,13 +4,13 @@ const userAuth = async(req, res , next)=>{
       try{
              const {token} = req.cookies;
              if(!token){
-                  return res.json({message : "Please Login !"})
+                  return res.status(404).json({message : "Please Login !"})
                }
              const objectUserId = await jwt.verify(token , "ProjectMan22");
             
              const user = await User.findById(objectUserId);
              if(!user){
-                 return res.json({messsage : "Cannot find any user"});
+                 return res.status(404).json({messsage : "Cannot find any user"});
               }
             req.user = user;
             next()

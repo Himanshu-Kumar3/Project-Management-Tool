@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/database");
 const authRouter = require("./Routes/auth");
 const userRouter = require("./Routes/user");
+const projectRouter = require("./Routes/project")
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(cookieParser());
 
 app.use("/" , authRouter);
 app.use("/" , userRouter);
+app.use("/" , projectRouter);
 
 port = 8080;
 connectDB().then(()=>{
