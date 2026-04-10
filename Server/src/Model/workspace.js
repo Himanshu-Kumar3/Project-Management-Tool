@@ -17,6 +17,7 @@ const workspaceSchema = new mongoose.Schema({
       },
       photoUrl:{
             type:String,
+            trim:true
       },
       discription:{
             type:String,
@@ -28,23 +29,40 @@ const workspaceSchema = new mongoose.Schema({
             required:true
       }
       , members : [{
-            userId :{
+            memberId :{
                   type:mongoose.Schema.Types.ObjectId,
+                  required:true,
+                  lowercase : true,
+                  trim: true 
             },
             workspaceId :{
-                  type:mongoose.Schema.Types.ObjectId
+                  type:mongoose.Schema.Types.ObjectId,
+                  required:true,
+
             },
             message:{
                   type:String
             },
             role:{
                   type:String,
+                  required:true,
+                  lowercase:true,
+                  trim:true,
                   enum:{
-                        values :["Admin" , "Member"],
+                        values :["admin" , "member"],
                         message : '{VALUE} is not valid role'
                   }
+            },
+            status:{
+                  type:String,
+                  enum:{
+                        values: ["sent" , "accepted"],
+                        message: '{VALUE} is not valid status'
+
+                  }
             }
-      }]
+      }],
+
 }, {timestamps:true});
 
 Workspace = mongoose.model("Workspace" , workspaceSchema);
