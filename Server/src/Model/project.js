@@ -1,0 +1,76 @@
+const mongoose = require("mongoose");
+const validator = require("validator");
+const projectSchema = new mongoose.Schema({
+      name: {
+            type:String,
+            required:true,
+            minlength:4,
+            maxlength:14,
+            trim:true,
+            lowercase:true
+      },
+      discription:{
+            type:String,
+            default:"This is a project discription"
+      },
+      priority:{
+            type:String,
+            default:"meduim",
+            enum:{
+                  values:["low" , "meduim", "high"],
+                  message:'{VALUE} is not a valid priority'
+            }
+      },
+      status:{
+            type:String,
+            default:'planning',
+            enum:{
+                  values:['planning' , 'active' , 'completion' ,'hold','cancelled'],
+                  message: '{VALUE} is not a valid status'
+            }
+      },
+      startDate :{
+            type:Date,
+            required:true
+      },
+      endDate:{
+            type:Date,
+            required:true
+      },
+      workspaceId:{
+            type:mongoose.Schema.Types.ObjectId,
+            required:true
+
+      },
+      teamLeadEmail : {
+            type :String,
+            validate(value){
+                  if(!validator.isEmail(value)){
+                        throw new Error("Invalid email !")
+                  }
+
+            }
+      },
+      members : [{
+            memberEmail :{
+                  type:String,
+                  required:true, 
+                   validate(value){
+                  if(!validator.isEmail(value)){
+                        throw new Error("Invalid email !")
+                  }
+
+            }
+
+            },
+            projectId : {
+                  type:mongoose.Schema.Types.ObjectId,
+                  required:true,
+
+            }
+      }]
+
+} , {timestamps:true});
+
+const Project = mongoose.model('Project' , projectSchema);
+module.exports = Project;
