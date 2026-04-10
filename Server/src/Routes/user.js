@@ -41,6 +41,35 @@ userRouter.get('/user/getWorkspace' , userAuth , async (req, res)=>{
       }catch(er){
             res.json("ERROR : " + er.message);
       }
+});
+
+// Add Member
+
+userRouter.post("/user/addMember/:workspaceId" , userAuth , async(req, res)=>{
+      try{
+            const user = req.user;
+            const {emailId , role } = req.body;
+            const {workspaceId } = req.params;
+            const workspace = await Workspace.findOne({ownerId : user._id ,_id : workspaceId })
+            if(!workspace){
+                  return res.status(400).send({message: "you donn't have priviledge to add members"})
+
+            }
+            const addUser = await User.findOne({emailId:emailId});
+            if(!addUser){
+                  return res.status(400).json({message:"User Not Found"});
+            }
+            workspace.members.push({memberId: addUser._id , role ,workspaceId});
+            await workspace.save();
+            res.json({message:"Member added successfuly" })
+
+
+
+      }catch(er){
+            res.status(400).send({message :"ERROR : " + er.message});
+
+      }
+
 })
 
 
