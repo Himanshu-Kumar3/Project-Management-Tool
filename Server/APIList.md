@@ -11,8 +11,10 @@
 
 ## workspace
 
-- get  user/getWorkspace
 - post user/createWorkspace
+- get  user/getWorkspace
+- post user/addMember
+
 
 - post user/createProject
 - get user/getProject

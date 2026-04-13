@@ -3,6 +3,7 @@ const userAuth = require("../middleware/auth");
 const projectRouter = express.Router();
 const Workspace = require("../Model/workspace");
 const Project = require("../Model/project");
+const Task = require("../Model/task");
 
 
 const SAFE_OPTIONS = ["discription" , "status" ,"priority" , "teamLeadEmail" ]
@@ -95,6 +96,31 @@ projectRouter.post("/workspace/getProjects/:workspaceId" , userAuth , async(req,
       }catch(er){
             res.status(400).send({message:"ERROR : " + er.message})
       }
-})
+});
+
+
+
+projectRouter.delete("/project/deleteproject/:projectId" , userAuth , async(req, res)=>{
+
+     try{
+      const { projectId} = req.params;
+
+      await  Task.deleteMany({projectId : projectId});
+      
+
+      const project = await Project.findByIdAndDelete({_id:projectId})
+      if(!project){
+            return res.status(404).json({message:"project not found"})
+      }
+
+
+      res.json({message:"Project deleted successfuly" , data : project});
+
+     }catch(er){
+  
+        res.status(400).send({message : "ERROR : " + er.message})
+ 
+     }
+});
 
 module.exports = projectRouter;
