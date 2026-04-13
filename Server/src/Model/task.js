@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
+const date = new Date(Date.now());
 const taskSchema = new mongoose.Schema({
       title :{
             type:String,
             required:true,
-            maxlength:14,
+            maxlength:20,
             minlength:4,
             lowercase:true,
             trim:true
@@ -30,7 +32,7 @@ const taskSchema = new mongoose.Schema({
             lowercase:true,
               enum:{
                   values :["to do" , "in progress" ,"done" ],
-                  message:'{VALUE} is not a valid category'
+                  message:'{VALUE} is not a valid status'
             },
 
       },
@@ -48,7 +50,7 @@ const taskSchema = new mongoose.Schema({
       dueDate :{
             type:Date,
             required:true,
-            default : new Date.now()
+            default : date
       },
       assignedTo:{
             type:String,
@@ -62,7 +64,28 @@ const taskSchema = new mongoose.Schema({
 
             }
       },
+       projectId:{
+            type :mongoose.Schema.Types.ObjectId,
+            required:true 
+      }
 
 } , {timestamps:true});
 
 const Task = mongoose.model("Task" , taskSchema);
+module.exports = Task;
+
+
+
+      // assignedBy:{
+      //       type:String , 
+      //       required:true,
+      //        lowercase:true,
+      //       trim:true,
+      //       validate(value){
+      //             if(!validator.isEmail(value)){
+      //                   throw new Error("Invalid Email !");
+      //             }
+
+      //       }
+      // }
+      // ,
