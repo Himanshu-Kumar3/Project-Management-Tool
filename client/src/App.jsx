@@ -1,10 +1,43 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {Provider} from "react-redux";
+import store from "./utils/appstore";
+import Welcome from "./pages/Welcome";
+import Signup from "./pages/Signup";
+import MainPage from "./pages/MainPage";
+import Dashboard from "./components/Dashboard";
+import CreateWorkspace from "./components/CreateWorkspace";
+import Projects from "./components/Projects";
+import Team from "./components/Team";
+import Setting from "./components/Setting";
 
 function App() {
+
+  
  
 
   return (
     <>
-    <h1 className="bg-red-900">Hello World</h1>
+    <Provider store={store}>
+      <BrowserRouter basename="/">
+    <Routes>
+      <Route path="/" element={<Welcome/>}/>
+      <Route path="/Signup" element={<Signup/>}/>
+
+
+      <Route path="/main"  element={<MainPage/>}>
+      <Route index element={<Dashboard/>}/>
+      <Route path="project"  element={<Projects/>}/>
+      <Route path="team" element={<Team/>}/>
+      <Route path="setting" element={<Setting/>}/>
+
+      </Route>
+      <Route path="/create-workspace" element={<CreateWorkspace/>}/>
+
+    </Routes>
+    </BrowserRouter>
+    
+
+    </Provider>
     </>
   )
 }

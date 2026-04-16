@@ -5,9 +5,14 @@ const userRouter = require("./Routes/user");
 const projectRouter = require("./Routes/project")
 const taskRouter = require("./Routes/task");
 const cookieParser = require('cookie-parser');
+const cors = require("cors");
 
 const app = express();
-
+app.use(cors({
+      origin:"http://localhost:5173",
+      credentials:true,
+      methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+}));
 app.use(express.json());
 app.use(cookieParser());
 

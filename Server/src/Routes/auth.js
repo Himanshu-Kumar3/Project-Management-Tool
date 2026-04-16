@@ -9,8 +9,8 @@ const authRouter = express.Router()
 authRouter.post("/signup" , async (req , res)=>{
       try{
 
-            const {firstName , lastName , emailId , password} = req.body;
-            validateSignupUser(req);
+           const {firstName , lastName , emailId , password} = req.body;
+           validateSignupUser(req);
            const encryptedPassword = await bcrypt.hash(password , 10);
            const user = new User({
             firstName , 
@@ -19,10 +19,14 @@ authRouter.post("/signup" , async (req , res)=>{
             password:encryptedPassword
             })
 
-          const data  = await user.save();
-          res.json({message : "Signup successfuly" , data})
+           
+
+          const savedUser  = await user.save();
+          const token = await savedUser.getJWT();
+           res.cookie("token" , token, {expires: new Date(Date.now() + 8 * 3600000), httpOnly: true})
+          res.json({message : "Signup successfuly" , data:savedUser})
       }catch(er){
-            res.status(400).send("ERROR : " +er.message);
+            res.status(400).json({message : "ERROR : " + er.message});
       }
      
 
