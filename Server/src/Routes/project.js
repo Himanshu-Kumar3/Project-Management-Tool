@@ -17,6 +17,11 @@ projectRouter.post("/project/createProject/:workspaceId" , userAuth ,async(req, 
            if(!isWorkspace){
             return res.status(404).json({message:"workspace not found !"})
            }
+           const isProject = await Project.findOne({name , workspaceId: workspaceId});
+           if(isProject){
+            return res.status(400).send({message : "Project already exists" })
+            
+           }
            const project = new Project({
             name , discription , status , priority ,startDate , endDate , teamLeadEmail , workspaceId
            });
