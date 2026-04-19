@@ -18,7 +18,7 @@ const Signup = () => {
   const [password ,setPassword]= useState("Samir@123");
   const navigate = useNavigate();
 
-  console.log(isSignIn)
+ 
 
 
 
@@ -33,12 +33,12 @@ const Signup = () => {
           firstName , lastName , emailId , password 
         } ,{withCredentials:true});
 
-        console.log("user" , res.data);
+       
         dispatch(addUser(res.data));
          navigate("/main");
       }else{
         const res = await axios.post(BASE_URL + "/login" ,{emailId , password } ,{withCredentials:true});
-        console.log(res.data)
+        
         dispatch(addUser(res.data));
          navigate("/main");
       }

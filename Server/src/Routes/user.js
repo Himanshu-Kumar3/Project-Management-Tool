@@ -70,6 +70,17 @@ userRouter.post("/user/addMember/:workspaceId" , userAuth , async(req, res)=>{
 
       }
 
+});
+
+
+
+userRouter.get("/user/getUser" ,userAuth , async(req, res)=>{
+      try{
+            const user = req.user;
+            res.json({message : "User info " , data : user});
+      }catch(er){
+            res.status(400).json({message :"ERROR"+ er.message});
+      }
 })
 
 

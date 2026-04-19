@@ -63,7 +63,7 @@ projectRouter.post("/project/addMember/:projectId" , userAuth , async(req, res)=
       const { projectId} = req.params;
       const {memberEmail} = req.body;
       const project = await Project.findOne({_id:projectId})
-      console.log(project);
+
       if(!project){
             return res.status(404).json({message:"project not found"})
       }else if(project.teamLeadEmail !== user.emailId){
@@ -87,7 +87,6 @@ projectRouter.post("/workspace/getProjects/:workspaceId" , userAuth , async(req,
             const user = req.user;
             const {workspaceId} = req.params;
             const projects = await Project.find({workspaceId:workspaceId});
-            console.log(projects)
             if(!projects){
                   return res.status(404).send({message :"No projects found !"})
             }

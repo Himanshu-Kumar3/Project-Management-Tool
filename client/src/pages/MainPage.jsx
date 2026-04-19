@@ -8,8 +8,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { addWorkspace } from '../utils/workspaceSlice';
 const MainPage = () => {
-  const workspace = useSelector(store => store.workspace);
-  const user = useSelector(store=>store.user);
+  const workspace = useSelector(store => store.workspace?.workspace);
+  const theme = useSelector(store => store.theme);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -17,11 +17,8 @@ const MainPage = () => {
     try{
       if(workspace) return ;
       const res = await axios.get(BASE_URL + "/user/getWorkspace" , {withCredentials:true});
-      console.log(res.data);
-      dispatch(addWorkspace(res?.data?.data));
-      console.log("slice" , workspace)
-
-
+      
+      dispatch(addWorkspace(res?.data?.data[0]));
     }catch(er){
     console.log(er?.message);
      if(er?.response?.status === 404){
@@ -35,17 +32,18 @@ const MainPage = () => {
   }
 
   useEffect(()=>{
+  
     getWorkspaceInfo();
+
   
   },[])
 
 
-  console.log(workspace);
-
+  
   return (
 
-    workspace && (<div data-theme="light" className='flex  w-[100%]'>
-      <Sidebar data={workspace} />
+    workspace && (<div data-theme={theme} className='flex overflow-hidden'>
+      <Sidebar  />
       <MainComponent />
     </div>)
   )

@@ -2,10 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const workspaceSlice = createSlice({
       name :"workspace",
-      initialState :null,
+      initialState :{
+            workspace : null ,
+            workspaces :[],
+      },
       reducers:{
             addWorkspace(state , action){
-                  return action.payload;
+                  state.workspace = action.payload;
+            },
+            addWorkspaces(state , action) {
+                  state.workspaces = action.payload;
+            },
+            appendWorkspace(state, action){
+                  state.workspaces.push(action.payload);
             },
             removeWorkspace(state,action){
                   return null
@@ -13,5 +22,5 @@ const workspaceSlice = createSlice({
       }
 })
 
-export const {addWorkspace , removeWorkspace} = workspaceSlice.actions;
+export const {addWorkspace , removeWorkspace , addWorkspaces , appendWorkspace} = workspaceSlice.actions;
 export default workspaceSlice.reducer;

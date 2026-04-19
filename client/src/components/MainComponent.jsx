@@ -4,7 +4,7 @@ import Header from "./Header";
 
 const MainComponent = () => {
   return (
-    <div className='w-[80%]'>
+    <div className='w-[82%]'>
       <Header/>
       <Outlet/>
     </div>
