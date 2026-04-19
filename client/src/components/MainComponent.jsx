@@ -4,7 +4,7 @@ import Header from "./Header";
 
 const MainComponent = () => {
   return (
-    <div className='w-[82%]'>
+    <div className='w-[82%] overflow-y-auto ml-58 mt-17 overflow-x-hidden'>
       <Header/>
       <Outlet/>
     </div>

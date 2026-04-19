@@ -1,15 +1,19 @@
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../utils/constants';
 import {addUser} from "../utils/userSlice";
 import ProjectDashboard from './ProjectDashboard';
 import CreateProject from './CreateProject';
+import RecentTaskBoard from './RecentTaskBoard';
 
 
 const Dashboard = () => {
   const user = useSelector(store => store.user);
   const {workspace} = useSelector(store => store.workspace);
+  const [isCreateModalOpen , setIsCreateModalOpen]= useState(false);
+
+  // const {projects} = 
 
 
 
@@ -29,6 +33,10 @@ const Dashboard = () => {
     }
   }
 
+  const handleNewProject = ()=>{
+
+  }
+
   useEffect(()=>{
     getUser();
     // getWorkspace();
@@ -40,14 +48,15 @@ const Dashboard = () => {
   const {firstName , lastName} = user.data;
     
     return (
-    <div className='p-6 md:p-12   bg-none relative'>
-    
+    <div className='overflow-hidden font-sarif'>
+
+       <div className='p-6 md:p-6   bg-none relative overflow-y-auto overflow-x-hidden'>
       <div className='info flex justify-between items-center px-1 '>
         <div className='name'>
           <h1 className='font-bold  text-xl'>Welcome back , {firstName+ " " + lastName}</h1>
           <p className='text-xs font-medium text-gray-500'>Here's What's happening with your project today</p>
         </div>
-        <button className=' h-8 w-30 shadow-xl py-1 px-2 font-semibold text-sm text-white bg-blue-500 rounded-sm'>+ New Project</button>
+        <button className=' h-8 w-30 shadow-xl py-1 px-2 font-semibold text-sm text-white bg-blue-500 rounded-sm' onClick={()=>setIsCreateModalOpen(true)} >+ New Project</button>
 
       </div>
 
@@ -109,19 +118,24 @@ const Dashboard = () => {
       </div>
 
       <div className='detailed info'> 
-        <div>
-           <ProjectDashboard data={workspace}/>
+        <div className='w-full'>
+           <ProjectDashboard data={workspace}  />
+          
         </div>
-        <div>
 
-        </div>
        
       </div>
 
-      {/* Modal for create-project */}
-      <div className='absolute -top-14 -left-57'>
-        <CreateProject data={workspace}/>
       </div>
+
+      {/* Modal for create-project */}
+         {isCreateModalOpen && (
+                <CreateProject 
+                    data={workspace} 
+                    onClose={() => setIsCreateModalOpen(false)}
+                />
+            )}
+     
     </div>
   );
 

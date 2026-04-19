@@ -19,7 +19,7 @@ const Sidebar = () => {
   const getWorkspaces =async()=>{
     try{
       const res = await axios.get(BASE_URL + "/user/getWorkspace" , {withCredentials:true});
-      console.log("Workspaces" , res?.data?.data)
+    
       dispatch(addWorkspaces(res?.data?.data));
     }catch(er){
       console.log(er.message)
@@ -39,10 +39,10 @@ const Sidebar = () => {
     getWorkspaces();
     } , []);
   if(!currentWorkspace) return;
-  console.log("Sidebar" , workspace)
+  
 
   return (
-    <div className='h-screen border border-gray-300 w-58  relative'>
+    <div className='h-screen border border-gray-300 w-58 overflow-hidden  fixed top-0 left-0'>
 
       {/* For the workspace */}
       <div className='p-2   border-b border-base-300 ' >
