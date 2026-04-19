@@ -22,7 +22,6 @@ const MainPage = () => {
     }catch(er){
     console.log(er?.message);
      if(er?.response?.status === 404){
-      console.log(er?.response?.data?.message);
       navigate("/create-workspace");
      }
 
@@ -42,7 +41,8 @@ const MainPage = () => {
   
   return (
 
-    workspace && (<div data-theme={theme} className='flex overflow-hidden'>
+    workspace && (<div data-theme={theme} className='flex overflow-hidden  ;
+  font-optical-sizing: auto;'>
       <Sidebar  />
       <MainComponent />
     </div>)

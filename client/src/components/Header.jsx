@@ -20,7 +20,7 @@ const Header = () => {
 
   }
   return (
-    <div className='w-full flex justify-between shadow-sm p-2 px-15 border-b border-gray-300'>
+    <div className='w-[82%] flex overflow-hidden bg-base-100 fixed top-0 z-10 justify-between shadow-sm p-2 px-15 border-b border-gray-300'>
       <div className='border border-gray-400 items-center rounded-md focus-within:border-blue-400 focus-within:ring-1'>
         <i className="fa-brands fa-sistrix text-gray-600 pl-2 pt-1 text-xs mr-1  "></i>
          <input type='text' className='p-2 w-80 text-xs  focus:outline-none'  placeholder='Search project ,tasks ....'/>
