@@ -19,7 +19,7 @@ const CreateProject = ({data , onClose}) => {
       const [teamMember , setTeamMember] = useState("");
       const workspaceId = data._id;
       const [error, setError] = useState("");
-    //   const [isToast , setIsToast] = useState(false);
+      const [isToast , setIsToast] = useState(false);
 
       const dispatch = useDispatch();
 
@@ -38,8 +38,9 @@ const CreateProject = ({data , onClose}) => {
                  endDate,
                  teamLeadEmail
             } ,{withCredentials:true});
+            console.log(res?.data?.data)
          
-            dispatch(appendProject(res));
+            dispatch(appendProject(res?.data?.data));
             setTimeout(()=>{
                 setIsToast(true);
                 onClose();
@@ -143,11 +144,11 @@ const CreateProject = ({data , onClose}) => {
       </form>
             
       </div>
-        {/* { isToast && <div className="toast toast-top toast-center">
+        { isToast && <div className="toast toast-top toast-center">
       <div className="alert alert-info">
          <span>Project Created Sucessfuly.</span>
       </div>
-    </div>} */}
+    </div>}
 
 
     </div>
