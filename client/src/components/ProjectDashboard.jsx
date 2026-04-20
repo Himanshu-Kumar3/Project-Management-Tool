@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addprojects } from '../utils/projectSlice';
 import CreateProject from './CreateProject';
 
-const ProjectDashboard = ({data }) => {
+const ProjectDashboard = () => {
 
       const {projects} = useSelector(store => store.project);
       const currentProjects = projects;
@@ -18,7 +18,7 @@ const ProjectDashboard = ({data }) => {
 
       const getProjects = async()=>{
             try{
-                  const res =  await axios.post(BASE_URL + "/workspace/getProjects/" +data._id  , {} ,{withCredentials:true} );
+                  const res =  await axios.post(BASE_URL + "/workspace/getProjects/" +workspace._id  , {} ,{withCredentials:true} );
 
                   
                   dispatch(addprojects(res?.data?.data));
@@ -44,14 +44,13 @@ const formatDate = (dateString) => {
       }
 
       useEffect(()=>{
-            getProjects();
-      } , []);
+            if(workspace){
+               getProjects();
+            }
+            
+      } , [workspace]);
 
       if(!projects) return ;
-
-
-    
-      console.log(projects);
       if(projects.length === 0) return (
       <div className='w-full'>
         <div className=' w-full border border-gray-300 rounded-md '>
@@ -60,7 +59,7 @@ const formatDate = (dateString) => {
                   Project Overview
             </h2>
             <Link to="/main/project" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
-      </div>
+           </div>
      
      <div className='w-full h-50  text-center flex flex-col justify-center items-center  '>
       <div className='flex items-center justify-center rounded-full h-14 w-14 bg-zinc-500/20'>
@@ -96,19 +95,19 @@ return (
       <div className=" rounded-md ">
             {currentProjects.map((project) =>{
                 const formattedDate = formatDate(project.startDate);
-                  return <div className="p-6 border-b border-gray-400 rounded-sm hover:bg-base-200 hover:cursor-pointer">
+                  return <div className="p-6 border-b border-gray-400 rounded-sm hover:bg-base-200 hover:cursor-pointer" key={project._id}>
                         <div className=" flex justify-between">
                               <div>
                                <h3 className="text-sm py-1 font-semibold">{project.name}</h3>
                               <p className="text-xs text-zinc-600">{project.discription}</p>
                               </div>
                               <div>
-                                    <h2 className="bg-zinc-300 px-3 text-xs py-1  rounded-md">{project.status.toUpperCase()}</h2>
+                                    <h2 className="bg-zinc-300 text-zinc-700 px-3 text-xs py-1  font-medium rounded-md">{project.status.toUpperCase()}</h2>
                               </div>      
 
                          </div>
 
-                  <p className="text-xs text-zinc-600 pt-1"><i class="fa-regular fa-calendar"></i> {formattedDate}</p>
+                  <p className="text-xs text-zinc-600 pt-1"><i className="fa-regular fa-calendar"></i> {formattedDate}</p>
 
             </div>})}
 

@@ -11,15 +11,15 @@ import RecentTaskBoard from './RecentTaskBoard';
 const Dashboard = () => {
   const user = useSelector(store => store.user);
   const {workspace} = useSelector(store => store.workspace);
+  const {projects} = useSelector(store=> store.project);
   const [isCreateModalOpen , setIsCreateModalOpen]= useState(false);
-
-  // const {projects} = 
+ 
 
 
 
   
   const dispatch = useDispatch();
-  const projects = 0;
+  
 
   
   const getUser = async()=>{
@@ -33,22 +33,18 @@ const Dashboard = () => {
     }
   }
 
-  const handleNewProject = ()=>{
-
-  }
-
   useEffect(()=>{
     getUser();
-    // getWorkspace();
   } ,[]);
 
 
   if(!user) return;
 
   const {firstName , lastName} = user.data;
+  
     
     return (
-    <div className='overflow-hidden font-sarif'>
+    <div className='overflow-hidden px-8  font-sarif'>
 
        <div className='p-6 md:p-6   bg-none relative overflow-y-auto overflow-x-hidden'>
       <div className='info flex justify-between items-center px-1 '>
@@ -67,7 +63,7 @@ const Dashboard = () => {
         <div className='box rounded-md border p-4  py-3 bg-base-100 justify-between  border-gray-300 flex'>
           <div className='breif '>
             <h2 className='text-sm text-base-content/70'>Total projects</h2>
-            <p className='text-3xl font-bold'>0</p>
+            <p className='text-3xl font-bold'>{projects?.length}</p>
             <p className='text-xs text-base-content/60'>projects in {workspace?.name.toLowerCase()} </p>
           </div>
 
@@ -80,7 +76,7 @@ const Dashboard = () => {
           <div className='breif '>
             <h2 className='text-sm text-base-content/70'>Completed projects</h2>
             <p className='text-3xl font-bold'>0</p>
-            <p className='text-xs text-base-content/60'>of {projects} total </p>
+            <p className='text-xs text-base-content/60'>of  total </p>
           </div>
 
           <span className='folder bg-emerald-500/10 p-1 px-2 h-8  rounded-md'>
@@ -117,14 +113,16 @@ const Dashboard = () => {
         
       </div>
 
-      <div className='detailed info'> 
         <div className='w-full'>
-           <ProjectDashboard data={workspace}  />
-          
+           <ProjectDashboard />
+        </div>
+        <div>
+          <RecentTaskBoard />
         </div>
 
+
        
-      </div>
+   
 
       </div>
 

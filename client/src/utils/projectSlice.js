@@ -14,7 +14,7 @@ const projectSlice = createSlice({
                   state.projects = action.payload;
             },
             appendProject(state , action){
-                  state.projects.push(action);
+                  state.projects.push(action.payload);
             },
             removeProject(state , action){
                   state.projects.filter((item)=> item !== action.payload);
