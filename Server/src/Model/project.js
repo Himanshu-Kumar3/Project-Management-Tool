@@ -21,6 +21,11 @@ const projectSchema = new mongoose.Schema({
                   message:'{VALUE} is not a valid priority'
             }
       },
+      progress:{
+            type:Number,
+            max:100,
+            min:0,
+      },
       status:{
             type:String,
             default:'planning',
