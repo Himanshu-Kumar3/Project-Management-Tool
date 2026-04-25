@@ -18,6 +18,7 @@ const ProjectDashboard = () => {
 
       const getProjects = async()=>{
             try{
+                  if(projects.length !== 0) return ;
                   const res =  await axios.post(BASE_URL + "/workspace/getProjects/" +workspace._id  , {} ,{withCredentials:true} );
 
                   
@@ -90,7 +91,7 @@ return (
             <h2 className='text-md'>
                   Project Overview
             </h2>
-            <Link to="/main/project" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
+            <Link to="/main/projects" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
       </div>
       <div className=" rounded-md ">
             {currentProjects.map((project) =>{

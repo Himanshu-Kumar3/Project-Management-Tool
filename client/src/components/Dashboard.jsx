@@ -52,7 +52,7 @@ const Dashboard = () => {
           <h1 className='font-bold  text-xl'>Welcome back , {firstName+ " " + lastName}</h1>
           <p className='text-xs font-medium text-gray-500'>Here's What's happening with your project today</p>
         </div>
-        <button className=' h-8 w-30 shadow-xl py-1 px-2 font-semibold text-sm text-white bg-blue-500 rounded-sm' onClick={()=>setIsCreateModalOpen(true)} >+ New Project</button>
+        <button className=' h-8 w-30 shadow-xl py-1 px-2 font-semibold text-sm text-white bg-blue-500 rounded-sm cursor-pointer' onClick={()=>setIsCreateModalOpen(true)} > + New Project</button>
 
       </div>
 

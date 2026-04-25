@@ -84,7 +84,7 @@ const Sidebar = () => {
           <i className="fa-regular fa-folder-open"></i>
           <h3 className='project ml-4 text-xs font-normal'>Dashboard</h3>
         </NavLink>
-        <NavLink to="/main/project" className= {handleLinkClass}>
+        <NavLink to="/main/projects" className= {handleLinkClass}>
           <i className="fa-regular fa-folder-open"></i>
           <h3 className='project ml-4 text-xs font-normal'>Projects</h3>
         </NavLink>

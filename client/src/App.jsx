@@ -9,6 +9,7 @@ import CreateWorkspace from "./components/CreateWorkspace";
 import Projects from "./components/Projects";
 import Team from "./components/Team";
 import Setting from "./components/Setting";
+import Project from "./components/Project";
 
 
 function App() {
@@ -27,9 +28,10 @@ function App() {
 
       <Route path="/main"  element={<MainPage/>}>
       <Route index element={<Dashboard/>}/>
-      <Route path="project"  element={<Projects/>}/>
+      <Route path="projects"  element={<Projects/>}/>
       <Route path="team" element={<Team/>}/>
       <Route path="setting" element={<Setting/>}/>
+      <Route path="projects/project" element={<Project/>}/>
 
       </Route>
       <Route path="/create-workspace" element={<CreateWorkspace/>}/>

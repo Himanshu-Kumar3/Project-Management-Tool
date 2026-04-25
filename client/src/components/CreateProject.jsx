@@ -1,9 +1,10 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../utils/constants';
 import { appendProject } from '../utils/projectSlice';
+import { addUser } from '../utils/userSlice';
 
 const CreateProject = ({data , onClose}) => {
 
@@ -55,8 +56,24 @@ const CreateProject = ({data , onClose}) => {
         }
       }
 
+  const getUser = async()=>{
+    try{
+      if(user) return ;
+      const res = await axios.get(BASE_URL +"/user/getUser" , {withCredentials:true});
+     
+      dispatch(addUser(res?.data))
+    }catch(er){
+      console.log(er?.response);
+    }
+  }
 
-      if(!user) return;
+   useEffect(()=>{
+        getUser();
+
+      },[]);
+
+  
+  if(!user) return;
    
       
   return (
