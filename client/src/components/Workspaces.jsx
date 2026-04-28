@@ -24,7 +24,7 @@ const Workspaces = ({data , setIsOpen , currentWorkspaceId}) => {
       </div>
        
        {currentWorkspaceId === data._id && <div className=''>
-          <p className='text-xs text-emerald-500'><i class="fa-solid fa-check"></i></p>
+          <p className='text-xs text-emerald-500'><i className="fa-solid fa-check"></i></p>
         </div>}
       </div>
   )

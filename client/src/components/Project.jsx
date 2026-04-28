@@ -15,10 +15,10 @@ const Project = () => {
     <div className='p-8'>
       <div className='flex justify-between'>
             <div className='flex items-baseline'>
-            <span className='mr-6 hover:bg-base-200'><i class="fa-solid fa-arrow-left"></i></span>
+            <span className='mr-6 hover:bg-base-200'><i className="fa-solid fa-arrow-left"></i></span>
             <h2 className='text-lg font-bold'>{project?.name}</h2>
             </div>
-            <button className='bg-blue-500 text-white px-3 py-2 text-sm rounded-sm shadow-md cursor-pointer' onClick={()=> setIsCreateproject(true)}><i class="fa-solid fa-plus"></i> New Task</button>
+            <button className='bg-blue-500 text-white px-3 py-2 text-sm rounded-sm shadow-md cursor-pointer' onClick={()=> setIsCreateproject(true)}><i className="fa-solid fa-plus"></i> New Task</button>
       </div>
 
       <div className='grid grid-cols-4 gap-2 md:flex md:flex-wrap  '>
@@ -52,7 +52,7 @@ const Project = () => {
             </div>
       </div>
 
-      <div className='mt-8 border border-gray-400   w-[27%] md:w-[42%] rounded-sm'>
+      <div className='mt-8 border border-gray-400   w-63 rounded-sm'>
             <button className=' py-2 px-3 pr-5 text-xs hover:bg-base-300'>
                   <i className="fa-solid fa-chart-gantt"></i>   Task
             </button>

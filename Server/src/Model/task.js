@@ -28,7 +28,7 @@ const taskSchema = new mongoose.Schema({
       status :{
             type:String,
             trim:true,
-            default:"meduim",
+            default:"in progress",
             lowercase:true,
               enum:{
                   values :["to do" , "in progress" ,"done" ],
@@ -39,10 +39,10 @@ const taskSchema = new mongoose.Schema({
       priority:{
             type:String,
             trim:true,
-            default:"meduim",
+            default:"medium",
             lowercase:true,
               enum:{
-                  values :["high" , "meduim" ,"low" ],
+                  values :["high" , "medium" ,"low" ],
                   message:'{VALUE} is not a valid category'
             },
 

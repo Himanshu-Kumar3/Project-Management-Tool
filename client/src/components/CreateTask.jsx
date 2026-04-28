@@ -1,18 +1,33 @@
 import React, { useState } from 'react'
+import axios from "axios"
+import { BASE_URL } from '../utils/constants';
 
 const CreateTask = ({data , onclose}) => {
       const [title , setTitle] = useState("");
-      const [discription , setDiscription] = useState("");
-      const [type , setType] = useState("");
-      const [priority , setPriority] = useState("");
+      const [discription , setDiscription] = useState("No Discription");
+      const [type , setType] = useState("feature");
+      const [priority , setPriority] = useState("medium");
       const [asignee , setAsignee] = useState("");
-      const [status , setStatus] = useState("");
+      const [status , setStatus] = useState("to do");
       const [dueDate , setDuedate] = useState("");
       const [error , setError] = useState(null);
 
       const handleCancel =()=>{
             onclose();
       }
+
+      const handleSubmitButton = async()=>{
+          try{
+               const res = await axios.post(BASE_URL +"ask/createTask/"  + {
+                    title , discription , type, priority ,status , dueDate, 
+               })
+
+          }catch(er){
+               setError(er.response.data.message);
+          }
+      }
+
+      console.log(data)
 
   return (
     <div className='z-50 fixed overflow-auto scrollbar-hide inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start '>
@@ -80,7 +95,7 @@ const CreateTask = ({data , onclose}) => {
 
                <div className='my-4 flex justify-end'>
                  <button className='bg-gray-100 hover:bg-gray-300 shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2   mr-4 ' onClick={handleCancel}>Cancel</button>
-               <button   className='bg-blue-500  text-white shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2'>Create Task</button>
+               <button   className='bg-blue-500  text-white shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2' onClick={handleSubmitButton}>Create Task</button>
 
                </div>
            </form>
