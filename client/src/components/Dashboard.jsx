@@ -13,6 +13,7 @@ const Dashboard = () => {
   const {workspace} = useSelector(store => store.workspace);
   const {projects} = useSelector(store=> store.project);
   const [isCreateModalOpen , setIsCreateModalOpen]= useState(false);
+  const {tasks} = useSelector(store => store.task)
  
 
 
@@ -61,7 +62,7 @@ const Dashboard = () => {
 
       <div className='overview grid md:grid-cols-4  my-8  md:gap-4'>
         <div className='box rounded-md border p-4  py-3 bg-base-100 justify-between  border-gray-300 flex'>
-          <div className='breif '>
+          <div className='totalProject '>
             <h2 className='text-sm text-base-content/70'>Total projects</h2>
             <p className='text-3xl font-bold'>{projects?.length}</p>
             <p className='text-xs text-base-content/60'>projects in {workspace?.name.toLowerCase()} </p>
@@ -73,9 +74,9 @@ const Dashboard = () => {
 
         </div>
        <div className='box rounded-md border p-4  py-3 justify-between   border-gray-400 flex'>
-          <div className='breif '>
+          <div className='completedProject '>
             <h2 className='text-sm text-base-content/70'>Completed projects</h2>
-            <p className='text-3xl font-bold'>0</p>
+            <p className='text-3xl font-bold text-green-500'>0</p>
             <p className='text-xs text-base-content/60'>of  total </p>
           </div>
 
@@ -86,9 +87,9 @@ const Dashboard = () => {
 
         </div>
          <div className='box rounded-md border p-4  py-3 justify-between   border-gray-400 flex'>
-          <div className='breif '>
+          <div className='taskAssigned '>
             <h2 className='text-sm text-base-content/70' >My tasks</h2>
-            <p className='text-3xl font-bold'>0</p>
+            <p className='text-3xl font-bold text-purple-500'>{tasks.length}</p>
             <p className='text-xs text-base-content/60'>assigned to me </p>
           </div>
 
@@ -99,9 +100,9 @@ const Dashboard = () => {
 
         </div>
         <div className='box rounded-md border p-4  py-3 justify-between   border-gray-400 flex'>
-          <div className='breif '>
+          <div className='taskOverdue '>
             <h2 className='text-sm text-base-content/70 font-medium'>Overdue</h2>
-            <p className='text-3xl  font-bold'>0</p>
+            <p className='text-3xl  font-bold text-amber-500'>0</p>
             <p className='text-xs text-base-content/60'>need attention </p>
           </div>
 
@@ -116,14 +117,6 @@ const Dashboard = () => {
         <div className='w-full'>
            <ProjectDashboard />
         </div>
-        <div>
-          <RecentTaskBoard />
-        </div>
-
-
-       
-   
-
       </div>
 
       {/* Modal for create-project */}
