@@ -16,7 +16,7 @@ taskRouter.post("/task/createTask/:projectId" , userAuth , async(req , res)=>{
             if(!project){
                   return res.status(404).send({message :"Project not found"});
             }
-            if(!project.teamLeadEmail === user.emailId){
+            if(project.teamLeadEmail !== user.emailId){
                   return res.status(400).send({message : "You don't have admin priviledge for the project"})
             }
             if(await Task.findOne({projectId:projectId , title : title})){
@@ -34,15 +34,16 @@ taskRouter.post("/task/createTask/:projectId" , userAuth , async(req , res)=>{
 
 
       }catch(er){
-            res.status(400).send({message:"ERROR : " + er.message})
+            res.status(400).json({message:"ERROR : " + er.message})
       }
 });
 
 
-taskRouter.post("/task/getTasks/:projectId" , userAuth ,async(req, res)=>{
+taskRouter.get("/task/getTasks" , userAuth ,async(req, res)=>{
       try{
-            const {projectId} = req.params;
-            const tasks = await Task.find({projectId :projectId});
+            
+            const user = req.user;
+            const tasks = await Task.find({assignedTo :user.emailId});
             if(!tasks){
                   return res.status(404).send({message :"Tasks not found"})
             }

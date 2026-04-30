@@ -17,7 +17,7 @@ const workspaceSlice = createSlice({
                   state.workspaces.push(action.payload);
             },
             removeWorkspace(state,action){
-                  return null
+                  return null;
             }
       }
 })

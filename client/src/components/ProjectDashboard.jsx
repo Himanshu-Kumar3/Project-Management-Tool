@@ -75,7 +75,7 @@ const formatDate = (dateString) => {
 
 
     </div>
-    {isOpen && <div className='fixed top-0 left-4 overflow-hidden z-4'>
+    {isOpen && <div className='fixed -top-8 left-4 overflow-hidden z-15'>
         <CreateProject data={workspace} onClose={()=>setIsOpen(false)} />
       </div>}
 
@@ -94,7 +94,7 @@ return (
             <Link to="/main/projects" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
       </div>
       <div className=" rounded-md ">
-            {currentProjects.map((project) =>{
+            {currentProjects.slice(0,3).map((project) =>{
                 const formattedDate = formatDate(project.startDate);
                   return <div className="p-6 border-b border-gray-400 rounded-sm hover:bg-base-200 hover:cursor-pointer" key={project._id}>
                         <div className=" flex justify-between">

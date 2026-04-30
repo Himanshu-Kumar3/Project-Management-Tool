@@ -21,7 +21,7 @@ const taskSchema = new mongoose.Schema({
             type:String,
             default:"task",
             enum:{
-                  values :["bug" , "features" ,"task" , "imporvement" , "others"],
+                  values :["bug" , "feature" ,"task" , "imporvement" , "others"],
                   message:'{VALUE} is not a valid category'
             },
       },
@@ -54,7 +54,6 @@ const taskSchema = new mongoose.Schema({
       },
       assignedTo:{
             type:String,
-            required:true,
             lowercase:true,
             trim:true,
             validate(value){

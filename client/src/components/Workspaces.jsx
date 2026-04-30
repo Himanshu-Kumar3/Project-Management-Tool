@@ -1,14 +1,25 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addWorkspace } from '../utils/workspaceSlice';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constants';
+import { addprojects } from '../utils/projectSlice';
 
 const Workspaces = ({data , setIsOpen , currentWorkspaceId}) => {
   const dispatch = useDispatch();
   
 
 
-  const handleWorkspaceClick =()=>{
-    dispatch(addWorkspace(data));
+  const handleWorkspaceClick =async()=>{
+    
+    try{
+      dispatch(addWorkspace(data));
+      const res =  await axios.post(BASE_URL+ "/workspace/getProjects/" +data._id  , {} ,{withCredentials:true} );
+      dispatch(addprojects(res?.data?.data));
+      }catch(er){
+      console.log(er.message);
+      }
+
     setIsOpen(false)
   }
 

@@ -41,8 +41,7 @@ const MainPage = () => {
   
   return (
 
-    workspace && (<div data-theme={theme} className='flex overflow-hidden  ;
-  font-optical-sizing: auto;'>
+    workspace && (<div data-theme={theme} className='flex font-optical-sizing:auto'>
       <Sidebar  />
       <MainComponent />
     </div>)

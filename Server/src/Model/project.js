@@ -49,6 +49,7 @@ const projectSchema = new mongoose.Schema({
       },
       teamLeadEmail : {
             type :String,
+            required:true,
             validate(value){
                   if(!validator.isEmail(value)){
                         throw new Error("Invalid email !")

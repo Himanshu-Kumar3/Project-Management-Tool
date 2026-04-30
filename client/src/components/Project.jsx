@@ -4,12 +4,21 @@ import { useSelector } from 'react-redux';
 
 const Project = () => {
       const {project} = useSelector(store => store.project)
-      const {task} = useSelector(store => store.task);
+      const {tasks} = useSelector(store => store.task);
       const [isCreateProject , setIsCreateproject] = useState(false);
+
+     const formatDate = (dateString) => {
+       const date = new Date(dateString);
+       const day = date.getDate();
+       const month = date.toLocaleString('default', { month: 'short' });
+       const year = date.getFullYear();
+       return `${day} ${month}, ${year}`;
+      };
 
 
  if(!project) return;
- console.log(task)
+
+ 
 
   return (
     <div className='p-8'>
@@ -27,7 +36,7 @@ const Project = () => {
                      <p className='text-sm font-semibold'>Total task</p>
                      <span className='text-black'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" ><path d="m422-232 207-248H469l29-227-185 267h139l-30 208ZM320-80l40-280H160l360-520h80l-40 320h240L400-80h-80Zm151-390Z"/></svg></span>
                   </div>
-                  <p className='py-2 text-2xl font-bold'>{0} </p>
+                  <p className='py-2 text-2xl font-bold'>{tasks.length} </p>
             </div>
             <div className='w-50 border border-gray-400 rounded-sm p-2 md:mr-3 mt-10'>
                   <div className='flex justify-between'>
@@ -95,11 +104,6 @@ const Project = () => {
                 {/* head */}
              <thead className='border-b border-gray-400  text-xs'>
                  <tr>
-                 <th>
-                 <label>
-                    <input type="checkbox" className="checkbox" />
-                 </label>
-                </th>
                 <th>TITLE</th>
                 <th>TYPE</th>
                 <th>PRIORITY</th>
@@ -109,30 +113,26 @@ const Project = () => {
               </thead>
    
 
-              {task && (<tbody>
-               {/* row 1 */}
-                 <tr>
-                  <th>
-                    <label>
-                        <input type="checkbox" className="checkbox" />
-                   </label>
-                 </th>
+              {tasks && (<tbody>
+                 { tasks.map(task => (
+                  
+            <tr key={task._id}>
                   <td>
                     {task.title}
                 </td>
                  <td>
-                    {task.type}
+                    {task.category}
                  </td>
                  <td>{task.priority}</td>
-                 <td>{task.asignee}</td>
-                 <td>{task.dueDate}</td>
+                 <td>{task.assignedTo}</td>
+                 <td>{formatDate(task.dueDate)}</td>
                 </tr>
-               {/* row 2 */}
-       
+
+                 ))}       
     </tbody>)}
   </table>
 
-  {!task && <p className='mt-4 text-center font-semibold text-zinc-700 pb-3'>No task found!</p>}
+  {!tasks && <p className='mt-4 text-center font-semibold text-zinc-700 pb-3'>No task found!</p>}
 </div>
             
       </div>

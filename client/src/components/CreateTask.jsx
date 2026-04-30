@@ -1,26 +1,48 @@
 import React, { useState } from 'react'
 import axios from "axios"
 import { BASE_URL } from '../utils/constants';
+import { useDispatch } from 'react-redux';
+import {appendTask} from "../utils/taskSlice";
 
 const CreateTask = ({data , onclose}) => {
       const [title , setTitle] = useState("");
       const [discription , setDiscription] = useState("No Discription");
-      const [type , setType] = useState("feature");
+      const [category , setCategory] = useState("feature");
       const [priority , setPriority] = useState("medium");
-      const [asignee , setAsignee] = useState("");
+      const [assignedTo , setAsignee] = useState("samir23@gmail.com");
       const [status , setStatus] = useState("to do");
       const [dueDate , setDuedate] = useState("");
       const [error , setError] = useState(null);
+      const [isToast , setIsToast] = useState(false);
+
+
+      const dispatch = useDispatch();
+      
+      const project = data;
 
       const handleCancel =()=>{
             onclose();
       }
 
+      
       const handleSubmitButton = async()=>{
           try{
-               const res = await axios.post(BASE_URL +"ask/createTask/"  + {
-                    title , discription , type, priority ,status , dueDate, 
-               })
+               const passingData = {
+                    title , discription , category, priority ,status , dueDate, assignedTo
+
+               }
+               console.log("PASSING DATA" ,passingData);
+               const res = await axios.post(BASE_URL +"/task/createTask/"+ project._id , {
+                    title , discription , category, priority ,status , dueDate, assignedTo
+               } , {withCredentials:true});
+
+               dispatch(appendTask(res?.data.data));
+               setIsToast(true);
+               setTimeout(()=>{
+                    setIsToast(false);
+                    onclose()
+               } , 2000)
+
 
           }catch(er){
                setError(er.response.data.message);
@@ -68,15 +90,15 @@ const CreateTask = ({data , onclose}) => {
                <div className='grid grid-cols-2 gap-4'>
               <fieldset className="fieldset ">
                    <legend className="fieldset-legend text-black text-xs ">Asignee</legend>
-                   <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' >
+                   <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number'  >
                         <option value="planning" defaultChecked>No Asignee</option>
-                        {/* <option value={user?.data.emailId}>{user?.data.emailId}</option> */}
+                        <option value={assignedTo}>{assignedTo}</option>
                    </select>
                </fieldset>
                
                <fieldset className="fieldset ">
-                   <legend className="fieldset-legend text-black text-xs">Type</legend>
-                   <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' value={type} onChange={(e)=>setType(e.target.value)}>
+                   <legend className="fieldset-legend text-black text-xs">Category</legend>
+                   <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' value={category} onChange={(e)=>setCategory(e.target.value)}>
                          <option value="Feature"defaultChecked>Feature</option>
                         <option value="bug" >Bug</option>
                         <option value="improvement">Improvement</option>
@@ -100,6 +122,11 @@ const CreateTask = ({data , onclose}) => {
                </div>
            </form>
       </div>
+         { isToast && <div className="toast toast-top toast-center">
+      <div className="alert alert-success">
+         <span>Task Created Sucessfuly.</span>
+      </div>
+    </div>}
     </div>
   )
 }
