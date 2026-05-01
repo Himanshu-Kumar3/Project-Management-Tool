@@ -45,7 +45,7 @@ const Dashboard = () => {
   
     
     return (
-    <div className='overflow-hidden px-8  font-sarif'>
+    <div className='overflow-hidden px-10  font-sarif'>
 
        <div className='p-6 md:p-6   bg-none relative overflow-y-auto overflow-x-hidden'>
       <div className='info flex justify-between items-center px-1 '>
@@ -71,7 +71,6 @@ const Dashboard = () => {
           <span className='folder bg-blue-500/10 p-1 px-2 h-8  rounded-md'>
             <i className="fa-regular fa-folder-open text-blue-500"></i>
           </span>
-
         </div>
        <div className='box rounded-md border p-4  py-3 justify-between   border-gray-400 flex'>
           <div className='completedProject '>

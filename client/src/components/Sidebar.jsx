@@ -134,7 +134,7 @@ const Sidebar = () => {
     <div className='p-3 flex flex-col'>
       <div className={`text-xs flex mx-2   justify-between items-center p-2 h-8 rounded-md hover:bg-base-300 }`} onClick={()=>setIsTaskClicked(!isTaskClicked)}>
         <h1 className=''> <i className="fa-regular fa-square-check text-zinc-500 mr-2"></i>My Tasks </h1>
-        <p className= {isTaskClicked ?"rotate-0" : "rotate-180"}> <i className="fa-solid fa-angle-down"></i></p>
+        <p className= {isTaskClicked ?"rotate-90" : "rotate-0"}> <i className="fa-solid fa-angle-right"></i></p>
       </div>
       <div className='text-xs text-content-600  flex mx-2    items-center p-2 pt-3   rounded-md '>
         {!tasks && isTaskClicked && <p>No tasks assigned</p>}
@@ -156,7 +156,7 @@ const Sidebar = () => {
 
       <div className='px-2 mx-2 text-xs ' >
         {projects.map((project)=> (
-          <div className='  cursor-pointer '>
+          <div key={project._id} className='  cursor-pointer '>
             <h2 className='   font-semibold flex  hover:bg-base-200 text-content-300 rounded-md px-2 py-2' onClick={()=>handleOpenProject(project._id)}> <span className={openProjectId === project._id  ? "rotate-90 mr-2 " :"rotate-0 mr-2"}><i className="fa-solid fa-angle-right text-xs font-light "></i></span>   {project.name}</h2>
             {openProjectId === project._id && <ul className='text-xs '>
                <li className='hover:bg-base-200 pl-3 text-content-200 py-2 rounded-md ml-3'><i className="fa-solid fa-chart-gantt mr-1"></i> Tasks</li>
