@@ -38,7 +38,7 @@ const Sidebar = () => {
   const getTasks = async()=>{
     try{
       const res = await axios.get(BASE_URL + "/task/getTasks"  ,{withCredentials:true} )
-       console.log("sidebar" , res.data.data)
+    
       dispatch(addTasks(res.data.data)) 
     }catch(er){
       console.log(er?.response.data)
@@ -111,7 +111,7 @@ const Sidebar = () => {
       <div>
 
       {/* navlinks */} 
-      <div className="h-45 p-3" >
+      <div className="h-35 p-3" >
         <NavLink to="/main" className= {handleLinkClass}>
           <i className="fa-regular fa-folder-open"></i>
           <h3 className='project ml-4 text-xs font-normal'>Dashboard</h3>
@@ -123,10 +123,6 @@ const Sidebar = () => {
         <NavLink to="/main/team" className={handleLinkClass}>
           <i className="fa-regular fa-folder-open"></i>
           <h3 className='project ml-4 text-xs font-normal'>Team</h3>
-        </NavLink>
-         <NavLink to="/main/setting" className={handleLinkClass}>
-          <i className="fa-regular fa-folder-open"></i>
-          <h3 className='project ml-4 text-xs font-normal'>Settings</h3>
         </NavLink>
       </div>
     </div>

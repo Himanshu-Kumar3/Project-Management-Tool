@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from "axios"
 import { BASE_URL } from '../utils/constants';
 import { useDispatch } from 'react-redux';
-import {appendTask} from "../utils/taskSlice";
+import {addProjectTask, appendTask} from "../utils/taskSlice";
 
 const CreateTask = ({data , onclose}) => {
       const [title , setTitle] = useState("");
@@ -31,17 +31,25 @@ const CreateTask = ({data , onclose}) => {
                     title , discription , category, priority ,status , dueDate, assignedTo
 
                }
-               console.log("PASSING DATA" ,passingData);
+               
                const res = await axios.post(BASE_URL +"/task/createTask/"+ project._id , {
                     title , discription , category, priority ,status , dueDate, assignedTo
                } , {withCredentials:true});
 
                dispatch(appendTask(res?.data.data));
+
+               const fetchRes = await axios.post(`${BASE_URL}/task/getProjectTask/${data._id}`,
+                 {},
+             { withCredentials: true }
+             );
+      
+      // Update Redux store with the complete updated tasks list
+               dispatch(addProjectTask({  projectName: data.name,  tasks: fetchRes?.data?.data    }));
                setIsToast(true);
                setTimeout(()=>{
                     setIsToast(false);
                     onclose()
-               } , 2000)
+               } , 1500)
 
 
           }catch(er){
@@ -49,7 +57,7 @@ const CreateTask = ({data , onclose}) => {
           }
       }
 
-      console.log(data)
+     
 
   return (
     <div className='z-50 fixed overflow-auto scrollbar-hide inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start '>

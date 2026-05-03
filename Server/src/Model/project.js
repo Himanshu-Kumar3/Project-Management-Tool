@@ -15,7 +15,7 @@ const projectSchema = new mongoose.Schema({
       },
       priority:{
             type:String,
-            default:"meduim",
+            default:"medium",
             enum:{
                   values:["low" , "medium", "high"],
                   message:'{VALUE} is not a valid priority'
@@ -23,6 +23,7 @@ const projectSchema = new mongoose.Schema({
       },
       progress:{
             type:Number,
+            default:0,
             max:100,
             min:0,
       },

@@ -94,5 +94,22 @@ taskRouter.delete("/task/deleteTask/:taskId" , userAuth , async(req, res)=>{
       }catch(er){
             res.status(400).json({Error :er.message})
       }
+});
+
+taskRouter.post("/task/getProjectTask/:projectId" , userAuth , async(req, res)=>{
+      try{
+            const {projectId} = req.params;
+            const tasks = await Task.find({projectId: projectId});
+            if(!tasks){
+                  return res.status(404).json({message : "Task Not Found"})
+            }
+
+            res.send({message :"project tasks" , data:tasks});
+
+      }catch(er){
+            res.status(400).send({message :"ERROR : " + er.message})
+      }
+
+
 })
 module.exports = taskRouter;

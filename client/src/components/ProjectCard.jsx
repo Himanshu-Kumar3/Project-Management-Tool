@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addProject } from '../utils/projectSlice';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constants';
+import { addProjectTask } from '../utils/taskSlice';
 
 const ProjectCard = ({data}) => {
       const {name , discription , priority , status} = data;
@@ -9,10 +12,20 @@ const ProjectCard = ({data}) => {
       const navigate = useNavigate();
 
       const dispatch = useDispatch();
+      const projectTask = useSelector(store =>store.task.projectTask)
 
-      const handleProjectClick = ()=>{
+      const handleProjectClick = async()=>{
+        try{
         dispatch(addProject(data));
-        navigate("/main/projects/project");
+
+        if(projectTask[data.name] && projectTask[data.name].length > 0) {navigate("/main/projects/project/"+data._id) ; return}
+
+        const res = await axios.post(BASE_URL + "/task/getProjectTask/" +data._id , {} , {withCredentials:true});
+        dispatch(addProjectTask({projectName :data.name ,tasks: res?.data.data}))
+        navigate("/main/projects/project/"+data._id);
+        }catch(er){
+          console.log(er.message);
+        }
 
       }
   return (

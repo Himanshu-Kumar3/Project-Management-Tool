@@ -6,7 +6,7 @@ const Project = require("../Model/project");
 const Task = require("../Model/task");
 
 
-const SAFE_OPTIONS = ["discription" , "status" ,"priority" , "teamLeadEmail" ]
+const SAFE_OPTIONS = ["discription" , "name" , "status" ,"priority"  , "progress" , "member" ]
 
 projectRouter.post("/project/createProject/:workspaceId" , userAuth ,async(req, res)=>{
       try{
@@ -37,7 +37,7 @@ projectRouter.post("/project/createProject/:workspaceId" , userAuth ,async(req, 
 projectRouter.post("/project/editproject/:projectId" , userAuth , async(req, res)=>{
 
      try{
-      const user = req.user;
+      
       const editData = req.body;
       const { projectId} = req.params;
       const project = await Project.findOne({_id:projectId})
@@ -45,6 +45,7 @@ projectRouter.post("/project/editproject/:projectId" , userAuth , async(req, res
             return res.status(404).json({message:"project not found"})
       }
 
+     
       const isAllowedUpdate = Object.keys(editData).every(key=> SAFE_OPTIONS.includes(key));
       if(!isAllowedUpdate){
             return res.status(400).json({message :"update not allowed"});

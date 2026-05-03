@@ -5,7 +5,8 @@ const taskSlice = createSlice({
       name : "task" ,
       initialState:{
             task: null, 
-            tasks:[]
+            tasks:[],
+            projectTask : {},
       } ,
       reducers:{
             addTask(state , action){
@@ -14,6 +15,19 @@ const taskSlice = createSlice({
                   state.tasks.push(action.payload);
             }, addTasks(state , action){
                   state.tasks = action.payload;
+            },
+            addProjectTask(state , action){
+                  const {projectName , tasks} = action.payload;
+                  if(!state.projectTask[projectName]){
+                        state.projectTask[projectName] = [];
+
+                  }
+                  if(Array.isArray(tasks)){
+                         state.projectTask[projectName].push(...tasks);
+                  }else{
+                         state.projectTask[projectName].push(tasks);
+                  }
+                 
             },removeTask(state , action){
                   state.tasks.filter(task => !task.includes(action.payload))
             }
@@ -21,5 +35,5 @@ const taskSlice = createSlice({
       
 });
 
-export const {addTask, addTasks , appendTask , removeTask} = taskSlice.actions;
+export const {addTask, addTasks , appendTask , addProjectTask , removeTask} = taskSlice.actions;
 export default taskSlice.reducer;
