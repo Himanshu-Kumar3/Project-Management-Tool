@@ -35,7 +35,7 @@ userRouter.get('/user/getWorkspace' , userAuth , async (req, res)=>{
             const user = req.user;
             const workspaces = await Workspace.find({ownerId : user._id});
             if(workspaces.length === 0){
-                 return  res.status(404).json({message : "No workspaces found , Please Create Workspace"})
+                 return  res.status(401).json({message : "No workspaces found , Please Create Workspace"})
             }
             res.json({message :"Workspaces ...!" , data : workspaces} );
       }catch(er){

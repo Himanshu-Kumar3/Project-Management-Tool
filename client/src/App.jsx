@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./utils/appstore";
-import Welcome from "./pages/Welcome";
 import Signup from "./pages/Signup";
 import MainPage from "./pages/MainPage";
 import Dashboard from "./components/Dashboard";
@@ -22,17 +21,15 @@ function App() {
     <Provider store={store}>
       <BrowserRouter basename="/">
     <Routes>
-      <Route path="/" element={<Welcome/>}/>
+      
       <Route path="/Signup" element={<Signup/>}/>
-
-
-      <Route path="/main"  element={<MainPage/>}>
+      
+      <Route path="/"  element={<MainPage/>}>
       <Route index element={<Dashboard/>}/>
       <Route path="projects"  element={<Projects/>}/>
       <Route path="team" element={<Team/>}/>
       <Route path="setting" element={<Setting/>}/>
       <Route path="projects/project/:projectId" element={<Project/>}/>
-
       </Route>
       <Route path="/create-workspace" element={<CreateWorkspace/>}/>
 

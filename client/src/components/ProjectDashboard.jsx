@@ -50,11 +50,11 @@ const formatDate = (dateString) => {
             try{
         dispatch(addProject(project));
 
-        if(addProjectTask[project.name]) {navigate("/main/projects/project/"+project._id) ; return}
+        if(addProjectTask[project.name]) {navigate("/projects/project/"+project._id) ; return}
 
         const res = await axios.post(BASE_URL + "/task/getProjectTask/" +project._id , {} , {withCredentials:true});
         dispatch(addProjectTask({projectName :project.name ,tasks: res?.data.data}))
-        navigate("/main/projects/project/"+project._id);
+        navigate("/projects/project/"+project._id);
         }catch(er){
           console.log(er.message);
         }
@@ -76,7 +76,7 @@ const formatDate = (dateString) => {
             <h2 className='text-md'>
                   Project Overview
             </h2>
-            <Link to="/main/project" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
+            <Link to="/project" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
            </div>
      
      <div className='w-full h-50  text-center flex flex-col justify-center items-center  '>
@@ -108,7 +108,7 @@ return (
             <h2 className='text-md'>
                   Project Overview
             </h2>
-            <Link to="/main/projects" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
+            <Link to="/projects" className='text-sm'>View all <i className="fa-solid fa-arrow-right-long font-extralight"></i></Link>
       </div>
       <div className=" rounded-md ">
             {currentProjects.slice(0,3).map((project) =>{

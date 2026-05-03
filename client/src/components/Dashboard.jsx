@@ -6,9 +6,12 @@ import {addUser} from "../utils/userSlice";
 import ProjectDashboard from './ProjectDashboard';
 import CreateProject from './CreateProject';
 import RecentTaskBoard from './RecentTaskBoard';
+import { useNavigate } from 'react-router-dom';
+import Footer from './Footer';
 
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const user = useSelector(store => store.user);
   const {workspace} = useSelector(store => store.workspace);
   const {projects} = useSelector(store=> store.project);
@@ -30,6 +33,9 @@ const Dashboard = () => {
      
       dispatch(addUser(res?.data))
     }catch(er){
+      if(er.response.status === 404){
+        navigate("/Signup")
+      }
       console.log(er?.response);
     }
   }
@@ -117,6 +123,7 @@ const Dashboard = () => {
            <ProjectDashboard />
         </div>
       </div>
+     
 
       {/* Modal for create-project */}
          {isCreateModalOpen && (
@@ -125,6 +132,7 @@ const Dashboard = () => {
                     onClose={() => setIsCreateModalOpen(false)}
                 />
             )}
+     
      
     </div>
   );

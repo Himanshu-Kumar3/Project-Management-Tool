@@ -17,7 +17,7 @@ const CreateWorkspace = () => {
             const res = await axios.post(BASE_URL + "/user/createWorkspace" , {name , slug} , {withCredentials:true})
 
             dispatch(addWorkspace(res?.data));
-            navigate("/main");
+            navigate("/");
             }catch(er){
                   console.log(er.message);
             }

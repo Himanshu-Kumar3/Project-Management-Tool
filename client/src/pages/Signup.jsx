@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import {useNavigate} from "react-router-dom";
+import WelcomeHeader from '../components/WelcomeHeader';
 
 const Signup = () => {
 
@@ -35,12 +36,12 @@ const Signup = () => {
 
        
         dispatch(addUser(res.data));
-         navigate("/main");
+         navigate("/");
       }else{
         const res = await axios.post(BASE_URL + "/login" ,{emailId , password } ,{withCredentials:true});
         
         dispatch(addUser(res.data));
-         navigate("/main");
+         navigate("/");
       }
     }catch(er){
       console.log(er?.response?.data?.message)
@@ -49,16 +50,16 @@ const Signup = () => {
     }
   }
   return (
-<div >
-      <div className="backgroundImage absolute ">
-         <img className="bgImage h-screen w-screen object-cover" src="image.png" alt="Background-logo" />
-      </div>
-      <form onSubmit={(e)=>e.preventDefault()} className=" SignIn-form absolute  bg-[rgba(0,0,0,0.8)] p-4  mx-auto left-0 right-0 top-[13%] w-[70%] xs:w-[70%] sm:w-[50%] md:w-[33%]  flex flex-col items-center flex-wrap rounded-lg  " >
-      <h2 className="text-white self-start text-3xl font-semibold pl-10 py-1 ">{isSignIn ? "Sign In" : "Sign Up"}</h2>
+<div  className='bg-gray-50 h-screen w-screen'>
+  <WelcomeHeader/>
+
+  <div className="backgroundImage  flex justify-center items-center -mt-16 h-full w-full  shadow-lg  ">
+      <form onSubmit={(e)=>e.preventDefault()} className="   SignIn-form  bg-white shadow-2xl bg-linear   p-4   w-[70%] xs:w-[70%] sm:w-[50%] md:w-[30%] z-10 flex flex-col items-center flex-wrap rounded-lg  " >
+      <h2 className="text-black self-start text-3xl font-semibold pl-10 py-1 ">{isSignIn ? "Sign In" : "Sign Up"}</h2>
       {!isSignIn && <input
       onChange={(e)=>setFirstName(e.target.value)}
       value={firstName}
-       className="firstName  my-2 p-2 m-2 w-4/5 rounded-sm text-white bg-gray-700"
+       className="firstName border border-gray-400 text-black  my-2 p-2 m-2 w-4/5 rounded-sm  "
         placeholder="firstName" 
         type="text"
         />}
@@ -66,21 +67,21 @@ const Signup = () => {
        {!isSignIn && <input
        onChange={(e)=>setLastName(e.target.value)}
        value={lastName}
-       className="lastName  my-2 p-2 m-2 w-4/5 rounded-sm text-white bg-gray-700"
+       className="lastName  my-2 p-2 m-2 w-4/5 rounded-sm border border-gray-400 text-black"
         placeholder="lastName" 
         type="text"
         />}
         <input
         onChange={(e)=>setEmail(e.target.value)}
         value={emailId}
-         className="Email  p-2 m-2 my-2 w-4/5 rounded-sm text-white bg-gray-700" 
+         className="Email  p-2 m-2 my-2 w-4/5 rounded-sm border border-gray-400 text-black " 
          placeholder="Enter Email" 
          type="email"
          />
          <input
           onChange={(e)=>setPassword(e.target.value)}
           value={password}
-          className="password text-white my-2 p-2 m-2 w-4/5 rounded-sm bg-gray-700" 
+          className="password  my-2 p-2 m-2 w-4/5 rounded-sm border border-gray-400 text-black" 
           placeholder="Enter Password" 
           type="text"
           />
@@ -93,12 +94,20 @@ const Signup = () => {
           </button>
 
          <p 
-         className="SignInSignUpToggle text-white font-semibold cursor-pointer underline hover:text-gray-400 py-4"
+         className="SignInSignUpToggle text-black font-semibold cursor-pointer underline hover:text-gray-700 py-4"
            onClick={handleToggleForm}
            >{isSignIn ? "New user ? Sign Up" : "Already Registered ? Sign In Now"}
             </p>
 
       </form>
+        
+      </div>
+      <div className='footer flex justify-between absolute bottom-0  '>
+        <img src="https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/default_left.558fbf68.svg" alt="left-footer" className='h-70 ml-0 ' />
+        <img src="https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/default_right.f8462257.svg" alt="right-footer" className='h-70 ' />
+
+      </div>
+     
     </div>
     
   )

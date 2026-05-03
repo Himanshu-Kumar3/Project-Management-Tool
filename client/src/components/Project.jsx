@@ -41,7 +41,7 @@ const Project = () => {
     <div className='p-8 pl-16'>
       <div className='flex justify-between'>
             <div className='flex items-baseline'>
-            <Link to={"/main/projects"} className='mr-6 hover:bg-base-200'><i className="fa-solid fa-arrow-left"></i></Link>
+            <Link to={"/projects"} className='mr-6 hover:bg-base-200'><i className="fa-solid fa-arrow-left"></i></Link>
             <h2 className='text-lg font-bold'>{project?.name}</h2>
             </div>
             <button className='bg-blue-500 text-white px-3 py-2 text-sm rounded-sm shadow-md cursor-pointer' onClick={()=> setIsCreateproject(true)}><i className="fa-solid fa-plus"></i> New Task</button>

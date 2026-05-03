@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import { addTheme } from '../utils/themeSlice';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constants';
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
@@ -9,8 +12,10 @@ const Header = () => {
   const [isTheme , setIsTheme] = useState(true);
   const user = useSelector(store => store.user);
   const userData = user?.data || null;
+  const navigate = useNavigate();
 
   const handleTheme = ()=>{
+    
   
      if(isTheme === true){
       dispatch(addTheme("light"));
@@ -20,6 +25,15 @@ const Header = () => {
     setIsTheme(!isTheme);
    
   }
+  const handleSignout = async()=>{
+    try{
+      await axios.get(BASE_URL + "/logout" , {withCredentials:true});
+      navigate("/Signup");
+
+    }catch(er){
+      console.log(er.response.data.message);
+    }
+  } 
 
   if(!userData) return ;
 
@@ -59,7 +73,7 @@ const Header = () => {
           </a>
         </li>
         <li className='mt-2 hover:bg-base-200'><a className='py-3'> <i className="fa-solid fa-gear ml-3 mr-7 text-sm"></i> Manage Account</a></li>
-        <li className='mt-2'><a className='py-3'><i className="fa-solid fa-right-from-bracket ml-3 mr-7 text-sm"></i> Sign out</a></li>
+        <li className='mt-2 ' onClick={handleSignout}><a className='py-3'><i className="fa-solid fa-right-from-bracket ml-3 mr-7 text-sm"></i> Sign out</a></li>
       </ul>
     </div>
       </div>

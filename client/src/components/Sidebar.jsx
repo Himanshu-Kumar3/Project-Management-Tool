@@ -55,7 +55,7 @@ const Sidebar = () => {
     setIsOpen(!isOpen);
   }
   const handleIconClick = ()=>{
-    navigate("/main/projects");
+    navigate("/projects");
 
   }
   const handleOpenProject = (projectId)=>{
@@ -112,15 +112,15 @@ const Sidebar = () => {
 
       {/* navlinks */} 
       <div className="h-35 p-3" >
-        <NavLink to="/main" className= {handleLinkClass}>
+        <NavLink to="/" className= {handleLinkClass}>
           <i className="fa-regular fa-folder-open"></i>
           <h3 className='project ml-4 text-xs font-normal'>Dashboard</h3>
         </NavLink>
-        <NavLink to="/main/projects" className= {handleLinkClass}>
+        <NavLink to="/projects" className= {handleLinkClass}>
           <i className="fa-regular fa-folder-open"></i>
           <h3 className='project ml-4 text-xs font-normal'>Projects</h3>
         </NavLink>
-        <NavLink to="/main/team" className={handleLinkClass}>
+        <NavLink to="/team" className={handleLinkClass}>
           <i className="fa-regular fa-folder-open"></i>
           <h3 className='project ml-4 text-xs font-normal'>Team</h3>
         </NavLink>
