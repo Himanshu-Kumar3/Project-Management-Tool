@@ -5,6 +5,7 @@ const userRouter = require("./Routes/user");
 const projectRouter = require("./Routes/project")
 const taskRouter = require("./Routes/task");
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 const cors = require("cors");
 
 const app = express();
@@ -21,7 +22,7 @@ app.use("/" , userRouter);
 app.use("/" , projectRouter);
 app.use("/" , taskRouter);
 
-port = 8080;
+port = process.env.PORT;
 connectDB().then(()=>{
       console.log("Database Connected Successfuly");
       app.listen(port, ()=>{
