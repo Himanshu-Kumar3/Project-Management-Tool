@@ -73,7 +73,7 @@ const Team = () => {
 
 
 {/* table  */}
-      <div className="overflow-x-auto border rounded-sm w-156 border-gray-400 mt-8">
+      <div className="overflow-x-auto border rounded-sm w-180 border-gray-400 mt-8">
       <table className=' text-sm w-full '>
         <thead className='py-2 bg-base-300' >
           <tr className=''>
@@ -85,12 +85,12 @@ const Team = () => {
         <tbody className='text-sm '>
           <tr>
             <td className='pl-4 pb-3 pt-3 font-medium'>{admin?.firstName + " "+ admin?.lastName}</td>
-            <td className='text-gray-600'> {admin.emailId}</td>
+            <td className='text-gray-600 tracking-wide'> {admin.emailId}</td>
             <td><span className='text-purple-500 bg-purple-500/10 px-1 rounded-lg'>Owner</span></td>
           </tr>
           <tr>
             <td className='pl-4 pb-3 font-medium'>{admin?.firstName + " "+ admin?.lastName}</td>
-            <td className='text-gray-600'> {admin.emailId}</td>
+            <td className='text-gray-600 tracking-wide'> {admin.emailId}</td>
             <td><span className='text-purple-500 bg-purple-500/10 px-1 rounded-lg'>Owner</span></td>
           </tr>
 
