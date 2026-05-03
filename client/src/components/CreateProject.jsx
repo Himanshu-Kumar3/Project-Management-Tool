@@ -39,11 +39,12 @@ const CreateProject = ({data , onClose}) => {
                  endDate,
                  teamLeadEmail
             } ,{withCredentials:true});
-            console.log(res?.data?.data)
+         
          
             dispatch(appendProject(res?.data?.data));
+            setIsToast(true);
             setTimeout(()=>{
-                setIsToast(true);
+                setIsToast(false);
                 onClose();
             }, 2000);
 
