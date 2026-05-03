@@ -8,7 +8,7 @@ const MainComponent = () => {
     <div className='w-[84%] min-h-screen overflow-y-auto ml-58 mt-17 overflow-x-hidden'>
       <Header/>
       <Outlet/>
-       {/* Footer */}
+       {/* Footer. */}
       <div className=' w-full ml-2 mt-4 shadow-md'>
         <Footer/>
       </div>
