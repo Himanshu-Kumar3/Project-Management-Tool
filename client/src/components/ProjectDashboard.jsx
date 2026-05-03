@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constants';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addprojects } from '../utils/projectSlice';
+import { addProject, addprojects } from '../utils/projectSlice';
 import CreateProject from './CreateProject';
+import { addProjectTask } from '../utils/taskSlice';
 
 const ProjectDashboard = () => {
 
@@ -15,6 +16,7 @@ const ProjectDashboard = () => {
       const dispatch = useDispatch();
       const [isOpen , setIsOpen] = useState(false);
        const {workspace} = useSelector(store => store.workspace);
+       const navigate = useNavigate();
 
       const getProjects = async()=>{
             try{
@@ -41,6 +43,21 @@ const formatDate = (dateString) => {
 
       const handleClick = ()=>{
             setIsOpen(true);
+
+      }
+
+      const handleProjectClick = async(project)=>{
+            try{
+        dispatch(addProject(project));
+
+        if(addProjectTask[project.name]) {navigate("/main/projects/project/"+project._id) ; return}
+
+        const res = await axios.post(BASE_URL + "/task/getProjectTask/" +project._id , {} , {withCredentials:true});
+        dispatch(addProjectTask({projectName :project.name ,tasks: res?.data.data}))
+        navigate("/main/projects/project/"+project._id);
+        }catch(er){
+          console.log(er.message);
+        }
 
       }
 
@@ -96,7 +113,7 @@ return (
       <div className=" rounded-md ">
             {currentProjects.slice(0,3).map((project) =>{
                 const formattedDate = formatDate(project.startDate);
-                  return <div className="p-6 border-b border-gray-400 rounded-sm hover:bg-base-200 hover:cursor-pointer" key={project._id}>
+                  return <div className="p-6 border-b border-gray-400 rounded-sm hover:bg-base-200 hover:cursor-pointer" key={project._id} onClick={()=>handleProjectClick(project)}>
                         <div className=" flex justify-between">
                               <div>
                                <h3 className="text-sm py-1 font-semibold">{project.name}</h3>
@@ -109,6 +126,14 @@ return (
                          </div>
 
                   <p className="text-xs text-zinc-600 pt-1"><i className="fa-regular fa-calendar"></i> {formattedDate}</p>
+
+                  <div className='flex justify-between mt-3 mb-1 '>
+                        <p className='font-semibold text-sm'>progress</p>
+                        <p className='font-semibold text-md'>
+                            {project.range || 0}%  
+                        </p>
+                  </div>
+                  <input type='range' min={0} max={100}   value={project.range || 0} readOnly  className='w-full accent-blue-500' />
 
             </div>})}
 
