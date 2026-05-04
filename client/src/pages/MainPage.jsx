@@ -61,7 +61,7 @@ const MainPage = () => {
   
   },[])
 
-  if(!user) return;
+
 
 
   

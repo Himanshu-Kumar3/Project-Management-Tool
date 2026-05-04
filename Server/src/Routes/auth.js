@@ -3,8 +3,20 @@ const User = require("../Model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 const validateSignupUser = require("../utils/validator");
+require("dotenv").config();
 
 const authRouter = express.Router()
+
+const getCookieOptions = (req) => {
+      const isProduction = process.env.NODE_ENV === 'production';
+
+      return {
+            expires: new Date(Date.now() + 8 * 3600000),
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
+      }
+}
 
 authRouter.post("/signup" , async (req , res)=>{
       try{
@@ -23,7 +35,7 @@ authRouter.post("/signup" , async (req , res)=>{
 
           const savedUser  = await user.save();
           const token = await savedUser.getJWT();
-           res.cookie("token" , token, {expires: new Date(Date.now() + 8 * 3600000), httpOnly: true})
+           res.cookie("token" , token, getCookieOptions(req))
           res.json({message : "Signup successfuly" , data:savedUser})
       }catch(er){
             res.status(400).json({message : "ERROR : " + er.message});
@@ -44,7 +56,7 @@ authRouter.post("/login" , async(req, res)=>{
             const isPasswordValid = await user.passwordValidator(password);
             if(isPasswordValid){
                   const token =await user.getJWT();
-                  res.cookie("token" , token, {expires: new Date(Date.now() + 8 * 3600000), httpOnly: true})
+                  res.cookie("token" , token,getCookieOptions(req))
                   res.json({message :"Login sucessful" , data : user})
                   
             }else{
