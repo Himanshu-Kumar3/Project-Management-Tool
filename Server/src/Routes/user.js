@@ -33,7 +33,15 @@ userRouter.post("/user/createWorkspace" ,userAuth , async(req, res)=>{
 userRouter.get('/user/getWorkspace' , userAuth , async (req, res)=>{
       try{
             const user = req.user;
-            const workspaces = await Workspace.find({ownerId : user._id});
+            const workspaces = await Workspace.find(
+                 {
+                  $or: [
+                     { ownerId: user._id },    // Exact match on ownerId field
+                     {  "members.memberId": user.email }      // Checks if user._id exists in members array
+                 ]
+
+                 }
+            );
             if(workspaces.length === 0){
                  return  res.status(401).json({message : "No workspaces found , Please Create Workspace"})
             }
@@ -48,22 +56,15 @@ userRouter.get('/user/getWorkspace' , userAuth , async (req, res)=>{
 userRouter.post("/user/addMember/:workspaceId" , userAuth , async(req, res)=>{
       try{
             const user = req.user;
-            const {emailId , role } = req.body;
             const {workspaceId } = req.params;
-            const workspace = await Workspace.findOne({ownerId : user._id ,_id : workspaceId })
+            const workspace = await Workspace.findOne({_id : workspaceId })
             if(!workspace){
-                  return res.status(400).send({message: "you donn't have priviledge to add members"})
+                  return res.status(404).send({message: "Workspace not found"})
 
             }
-            const addUser = await User.findOne({emailId:emailId});
-            if(!addUser){
-                  return res.status(400).json({message:"User Not Found"});
-            }
-            workspace.members.push({memberId: addUser._id , role ,workspaceId});
-            await workspace.save();
-            res.json({message:"Member added successfuly" })
-
-
+            workspace.members.push({memberId: user.emailId ,workspaceId, role:'member'});
+            const newWorkspace = await workspace.save();
+            res.json({message:"Member added successfuly"  , data : newWorkspace})
 
       }catch(er){
             res.status(400).send({message :"ERROR : " + er.message});

@@ -7,8 +7,8 @@ import { BASE_URL } from '../utils/constants';
 import { addProjectTask } from '../utils/taskSlice';
 
 const ProjectCard = ({data}) => {
-      const {name , discription , priority , status} = data;
-      const [range , setRange] = useState(0)
+      const {name , discription , priority , status, progress} = data;
+      // const [range , setRange] = useState(0)
       const navigate = useNavigate();
 
       const dispatch = useDispatch();
@@ -39,9 +39,9 @@ const ProjectCard = ({data}) => {
       <div>
             <div className='flex justify-between text-xs mt-2'>
                   <p className='font-semibold text-zinc-700'>progress</p>
-                  <p className='font-semibold text-zinc-700'><span className=' font-bold'>{range}</span>%</p>
+                  <p className='font-semibold text-zinc-700'><span className=' font-bold'>{progress}</span>%</p>
             </div>
-            <input type='range' min={0} max={100}   value={range} readOnly  className='w-full accent-blue-500' />
+            <input type='range' min={0} max={100}   value={progress} readOnly  className='w-full accent-blue-500' />
       </div>
 
     </div>

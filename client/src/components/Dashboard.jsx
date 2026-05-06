@@ -19,33 +19,17 @@ const Dashboard = () => {
   const {tasks} = useSelector(store => store.task)
  
 
-
-
+  if(!user || !workspace){  
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your workspace...</p>
+        </div>
+      </div>
+    );
   
-  const dispatch = useDispatch();
-  
-
-  
-  const getUser = async()=>{
-    try{
-      if(user) return ;
-      const res = await axios.get(BASE_URL +"/user/getUser" , {withCredentials:true});
-     
-      dispatch(addUser(res?.data))
-    }catch(er){
-      if(er.response.status === 404){
-        navigate("/Signup")
-      }
-      console.log(er?.response);
-    }
   }
-
-  useEffect(()=>{
-    getUser();
-  } ,[]);
-
-
-  if(!user) return;
 
   const {firstName , lastName} = user.data;
   
@@ -70,7 +54,7 @@ const Dashboard = () => {
         <div className='box rounded-md border p-4  py-3 bg-base-100 justify-between  border-gray-300 flex'>
           <div className='totalProject '>
             <h2 className='text-sm text-base-content/70'>Total projects</h2>
-            <p className='text-3xl font-bold'>{projects?.length}</p>
+            <p className='text-3xl font-bold text-blue-500'>{projects?.length}</p>
             <p className='text-xs text-base-content/60'>projects in {workspace?.name.toLowerCase()} </p>
           </div>
 

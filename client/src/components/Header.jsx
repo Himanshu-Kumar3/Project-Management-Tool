@@ -4,6 +4,9 @@ import { addTheme } from '../utils/themeSlice';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { useNavigate } from 'react-router-dom';
+import { removeWorkspace } from '../utils/workspaceSlice';
+import { removeProjects } from '../utils/projectSlice';
+import { removeTasks } from '../utils/taskSlice';
 
 
 const Header = () => {
@@ -28,6 +31,9 @@ const Header = () => {
   const handleSignout = async()=>{
     try{
       await axios.get(BASE_URL + "/logout" , {withCredentials:true});
+      dispatch(removeWorkspace());
+      dispatch(removeProjects());
+      dispatch(removeTasks());
       navigate("/Signup");
 
     }catch(er){
@@ -38,11 +44,7 @@ const Header = () => {
   if(!userData) return ;
 
   return (
-    <div className='w-[83%] flex  bg-base-100 fixed top-0 ml-2 z-10 justify-between shadow-sm p-2 px-15 border-b border-gray-300'>
-      <div className='border border-gray-400 items-baseline rounded-md focus-within:border-blue-400 focus-within:ring-1'>
-        <i className="fa-brands fa-sistrix text-gray-500 pl-2 pt-2  text-md mr-1  "></i>
-         <input type='text' className='p-2 w-80 text-sm  focus:outline-none'  placeholder='Search project ,tasks ....'/>
-      </div>
+    <div className='w-[83%] flex  bg-base-100 fixed top-0 ml-2 z-10 justify-end shadow-sm p-2 px-15 border-b border-gray-300'>
 
            
       <div className='flex items-center '>
@@ -83,15 +85,3 @@ const Header = () => {
 }
 
 export default Header;
-
-
-
-<div className="navbar bg-base-100 shadow-sm">
-  <div className="flex-1">
-    <a className="btn btn-ghost text-xl">daisyUI</a>
-  </div>
-  <div className="flex gap-2">
-    <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
-    
-  </div>
-</div>

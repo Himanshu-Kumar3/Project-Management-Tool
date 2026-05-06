@@ -9,6 +9,8 @@ import Projects from "./components/Projects";
 import Team from "./components/Team";
 import Setting from "./components/Setting";
 import Project from "./components/Project";
+import Invites from "./components/Invites";
+import TaskPage from "./components/TaskPage";
 
 
 function App() {
@@ -29,7 +31,9 @@ function App() {
       <Route path="projects"  element={<Projects/>}/>
       <Route path="team" element={<Team/>}/>
       <Route path="setting" element={<Setting/>}/>
+      <Route path="invites" element={<Invites/>}/>
       <Route path="projects/project/:projectId" element={<Project/>}/>
+      <Route path="project/task/:taskId" element={<TaskPage/>}/>
       </Route>
       <Route path="/create-workspace" element={<CreateWorkspace/>}/>
 

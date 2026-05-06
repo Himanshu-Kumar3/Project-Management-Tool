@@ -30,7 +30,7 @@ const workspaceSchema = new mongoose.Schema({
       }
       , members : [{
             memberId :{
-                  type:mongoose.Schema.Types.ObjectId,
+                  type:String,
                   required:true,
                   lowercase : true,
                   trim: true 
@@ -53,15 +53,9 @@ const workspaceSchema = new mongoose.Schema({
                         message : '{VALUE} is not valid role'
                   }
             },
-            status:{
-                  type:String,
-                  enum:{
-                        values: ["sent" , "accepted"],
-                        message: '{VALUE} is not valid status'
-
-                  }
-            }
+            
       }],
+     
 
 }, {timestamps:true});
 

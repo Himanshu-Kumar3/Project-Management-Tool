@@ -143,9 +143,7 @@ const CreateProject = ({data , onClose}) => {
                    <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' value={teamMember} onChange={(e)=>setTeamMember(e.target.value)}>
                         <option value="planning" defaultChecked>No Member</option>
                         <option value={user?.data.emailId}>{user?.data.emailId}</option>
-                        {data?.members.map((member)=>{
-                            <option value={member}>{member}</option>
-                        })}
+                        {data?.members.map((member)=><option key={member._id} value={member.memberId}>{member.memberId}</option>)}
 
                    </select>
                </fieldset>

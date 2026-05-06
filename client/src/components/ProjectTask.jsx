@@ -1,6 +1,6 @@
 import React from 'react'
-
-const ProjectTask = ({currentProject}) => {
+import { Link } from 'react-router-dom';
+const ProjectTask = ({currentProject , formatDate}) => {
       
   return (
     <div>
@@ -46,7 +46,7 @@ const ProjectTask = ({currentProject}) => {
               {currentProject.length > 0  ? (<tbody>
                  { currentProject.map(task => (
                   
-            <tr key={task._id}>
+           <Link to={"/project/task/"+ task._id} key={task._id}> <tr >
                   <td>
                     {task.title}
                 </td>
@@ -56,7 +56,7 @@ const ProjectTask = ({currentProject}) => {
                  <td>{task.priority}</td>
                  <td>{task.assignedTo}</td>
                  <td>{formatDate(task.dueDate)}</td>
-                </tr>
+                </tr></Link> 
 
                  ))}       
     </tbody>):(

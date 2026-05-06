@@ -37,7 +37,7 @@ const Sidebar = () => {
 
   const getTasks = async()=>{
     try{
-      const res = await axios.get(BASE_URL + "/task/getTasks"  ,{withCredentials:true} )
+      const res = await axios.get(BASE_URL + "/task/getTasks/"+currentWorkspace._id  ,{withCredentials:true} )
     
       dispatch(addTasks(res.data.data)) 
     }catch(er){
@@ -54,14 +54,7 @@ const Sidebar = () => {
   const handleToggleWorkspace = ()=>{
     setIsOpen(!isOpen);
   }
-  const handleIconClick = ()=>{
-    navigate("/projects");
 
-  }
-  const handleOpenProject = (projectId)=>{
-    setOpenProjectId(openProjectId === projectId   ? null : projectId)
-
-  }
  
   useEffect(()=>{
     getWorkspaces();
@@ -113,7 +106,7 @@ const Sidebar = () => {
       {/* navlinks */} 
       <div className="h-35 p-3" >
         <NavLink to="/" className= {handleLinkClass}>
-          <i className="fa-regular fa-folder-open"></i>
+          <i className="fa-solid fa-list"></i>
           <h3 className='project ml-4 text-xs font-normal'>Dashboard</h3>
         </NavLink>
         <NavLink to="/projects" className= {handleLinkClass}>
@@ -121,8 +114,12 @@ const Sidebar = () => {
           <h3 className='project ml-4 text-xs font-normal'>Projects</h3>
         </NavLink>
         <NavLink to="/team" className={handleLinkClass}>
-          <i className="fa-regular fa-folder-open"></i>
+          <i className="fa-solid fa-users"></i>
           <h3 className='project ml-4 text-xs font-normal'>Team</h3>
+        </NavLink>
+        <NavLink to="/invites" className= {handleLinkClass}>
+          <i className="fa-regular fa-bell"></i>
+          <h3 className='project ml-4 text-xs font-normal'>Invitaions</h3>
         </NavLink>
       </div>
     </div>
@@ -135,38 +132,14 @@ const Sidebar = () => {
       <div className='text-xs text-content-600  flex mx-2    items-center p-2 pt-3   rounded-md '>
         {!tasks && isTaskClicked && <p>No tasks assigned</p>}
         {tasks && isTaskClicked && <ul className=' w-full list-disc list-inside'>
-          {tasks.map(task =>   <li key={task._id} className='px-3 py-2 text-xs cursor-pointer rounded-md w-full flex flex-col marker:text-blue-500 marker:text-lg'>
+          {tasks.map(task => <Link to={"/project/task/"+ task._id}  key={task._id}><li  className='px-3 py-2 text-xs cursor-pointer rounded-md w-full flex flex-col marker:text-blue-500 marker:text-lg'>
     <p className='text-xs font-medium '>{task.title}</p>
       <p className='text-xs text-gray-500 pl-1'>{task.status}</p>
-  </li>)}
+  </li></Link>  )}
 
           </ul>}
       </div>
     </div>
-
-    <div className='p-3'>
-      <div className='flex justify-between items-baseline text-sm p-2 mx-2 text-content-700'>
-        <h1 className='font-semibold '>PROJECTS </h1>
-        <i className="fa-solid fa-arrow-right hover:bg-gray-300 cursor-pointer" onClick={handleIconClick}></i>
-      </div>
-
-      <div className='px-2 mx-2 text-xs ' >
-        {projects.map((project)=> (
-          <div key={project._id} className='  cursor-pointer '>
-            <h2 className='   font-semibold flex  hover:bg-base-200 text-content-300 rounded-md px-2 py-2' onClick={()=>handleOpenProject(project._id)}> <span className={openProjectId === project._id  ? "rotate-90 mr-2 " :"rotate-0 mr-2"}><i className="fa-solid fa-angle-right text-xs font-light "></i></span>   {project.name}</h2>
-            {openProjectId === project._id && <ul className='text-xs '>
-               <li className='hover:bg-base-200 pl-3 text-content-200 py-2 rounded-md ml-3'><i className="fa-solid fa-chart-gantt mr-1"></i> Tasks</li>
-               <li className='hover:bg-base-200 pl-3 text-base-content py-2 rounded-md ml-3'><i className="fa-regular fa-calendar-check mr-1"></i> Calender</li>
-               <li className='hover:bg-base-200 pl-3  py-2 rounded-md ml-3'> <i className="fa-solid fa-gear mr-1"></i> Settings</li>
-              </ul>}
-            </div>
-        ))}
-
-
-      </div>
-    </div>
-      
-
     </div>
 
     

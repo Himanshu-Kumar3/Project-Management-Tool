@@ -23,8 +23,9 @@ taskRouter.post("/task/createTask/:projectId" , userAuth , async(req , res)=>{
                   return res.status(400).send({message : "Task Already exists"});
             }
 
+            const workspaceId = project.workspaceId;
             const task = new Task({
-                  title , discription , category , priority ,status , dueDate , assignedTo, projectId
+                  title , discription , category , priority ,status , dueDate , assignedTo, projectId , workspaceId
             });
 
             await task.save();
@@ -39,11 +40,12 @@ taskRouter.post("/task/createTask/:projectId" , userAuth , async(req , res)=>{
 });
 
 
-taskRouter.get("/task/getTasks" , userAuth ,async(req, res)=>{
+taskRouter.get("/task/getTasks/:workspaceId" , userAuth ,async(req, res)=>{
       try{
             
+            const {workspaceId} = req.params;
             const user = req.user;
-            const tasks = await Task.find({assignedTo :user.emailId});
+            const tasks = await Task.find({assignedTo :user.emailId,workspaceId:workspaceId} );
             if(!tasks){
                   return res.status(404).send({message :"Tasks not found"})
             }
@@ -111,5 +113,21 @@ taskRouter.post("/task/getProjectTask/:projectId" , userAuth , async(req, res)=>
       }
 
 
+});
+
+taskRouter.post("/project/getTask/:taskId" , userAuth , async(req, res)=>{
+      try{
+            const {taskId} = req.params;
+
+            const isTask = await Task.findOne({_id:taskId});
+            if(!isTask){
+                  return res.status(404).send({message : "Task Not Found"});
+            }
+
+            res.json({message : "Task" , data: isTask});
+
+      }catch(er){
+            res.status(400).send({message:"ERROR : " + er.message});
+      }
 })
 module.exports = taskRouter;

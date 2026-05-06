@@ -4,6 +4,7 @@ const authRouter = require("./Routes/auth");
 const userRouter = require("./Routes/user");
 const projectRouter = require("./Routes/project")
 const taskRouter = require("./Routes/task");
+const connectionRouter = require("./Routes/connection");
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const cors = require("cors");
@@ -21,6 +22,7 @@ app.use("/" , authRouter);
 app.use("/" , userRouter);
 app.use("/" , projectRouter);
 app.use("/" , taskRouter);
+app.use("/" , connectionRouter);
 
 port = process.env.PORT;
 connectDB().then(()=>{

@@ -66,6 +66,9 @@ const taskSchema = new mongoose.Schema({
        projectId:{
             type :mongoose.Schema.Types.ObjectId,
             required:true 
+      }, workspaceId:{
+            type:mongoose.Schema.Types.ObjectId,
+            required:true
       }
 
 } , {timestamps:true});

@@ -15,42 +15,50 @@ const MainPage = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  // const getWorkspaceInfo = async()=>{
-  //   try{
-  //     if(workspace) return ;
-  //     const res = await axios.get(BASE_URL + "/user/getWorkspace" , {withCredentials:true});
-      
-  //     dispatch(addWorkspace(res?.data?.data[0]));
-  //   }catch(er){
-  //   console.log(er?.message);
-  //    if(er?.response?.status === 404){
-  //     navigate("/create-workspace");
-  //    }
-
-  //   }
-
-
-  // }
 
   const getUserAndWorkspace = async()=>{
     try{
-      if(user) return ;
-      const resUser = await axios.get(BASE_URL + "/user/getUser" , {withCredentials:true})
+      let currentUser = user;
+      console.log("current User" , currentUser)
+      if(!currentUser){
+      try {
+          const resUser = await axios.get(BASE_URL + "/user/getUser", { withCredentials: true });
+          console.log("User data:", resUser.data);
+          dispatch(addUser(resUser.data));
+          currentUser = resUser.data;
+        } catch (userError) {
+          console.log("User not authenticated:", userError.response?.status);
+          // If user is not authenticated, redirect to signup
+          navigate("/Signup");
+          return;
+        }
+      }
 
-      dispatch(addUser(resUser.data))
 
-      const res = await axios.get(BASE_URL +"/user/getWorkspace" , {withCredentials:true})
+      // If current user exists :-
+      try{
+        const res = await axios.get(BASE_URL + "/user/getWorkspace", { withCredentials: true });
+        console.log("Workspace data:", res.data.data);
+        
+        if (res.data.data && res.data.data.length > 0) {
+          dispatch(addWorkspace(res.data.data[0]));
+      }else {
+          // No workspace found, redirect to create workspace
+          navigate("/create-workspace");
+        }
+      }catch(workspaceError){
+        console.log("Workspace error:", workspaceError.response?.status);
+        if (workspaceError.response?.status === 401 || workspaceError.response?.status === 404) {
+          navigate("/create-workspace");
+        }
 
-      dispatch(addWorkspace(res?.data.data[0]))
+
+      }
 
     }catch(er){
-      if(er.response.status === 404){
-        navigate("/Signup");
-      }
-      if(er.response.status === 401){
-        navigate("/create-workspace");
-      }
-      console.log(er.response.status);
+      console.log(er.response);
+      console.log("Error:", er);
+      navigate("/Signup");
     }
   }
 
@@ -60,9 +68,28 @@ const MainPage = () => {
 
   
   },[])
+       
+  if(!user){
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
-
-
+    if (!workspace) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your workspace...</p>
+        </div>
+      </div>
+    );
+  }
 
   
   return (

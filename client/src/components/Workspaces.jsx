@@ -4,6 +4,7 @@ import { addWorkspace } from '../utils/workspaceSlice';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { addprojects } from '../utils/projectSlice';
+import { addTasks } from '../utils/taskSlice';
 
 const Workspaces = ({data , setIsOpen , currentWorkspaceId}) => {
   const dispatch = useDispatch();
@@ -16,6 +17,9 @@ const Workspaces = ({data , setIsOpen , currentWorkspaceId}) => {
       dispatch(addWorkspace(data));
       const res =  await axios.post(BASE_URL+ "/workspace/getProjects/" +data._id  , {} ,{withCredentials:true} );
       dispatch(addprojects(res?.data?.data));
+      const resTask = await axios.get(BASE_URL + "/task/getTasks/"+data._id  ,{withCredentials:true} )
+    
+      dispatch(addTasks(resTask.data.data)) 
       }catch(er){
       console.log(er.message);
       }
