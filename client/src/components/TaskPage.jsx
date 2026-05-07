@@ -2,9 +2,9 @@ import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BASE_URL } from '../utils/constants';
-import { addTask } from '../utils/taskSlice';
+import { addProjectTask, addTask,  removeTasks } from '../utils/taskSlice';
 
 const TaskPage = () => {
       const {taskId} = useParams();
@@ -19,6 +19,35 @@ const TaskPage = () => {
       };
 
       const {task} = useSelector(store => store.task);
+      const {project} = useSelector(store => store.project);
+      const navigate = useNavigate();
+
+      const handleTaskCompleted = async()=>{
+            if (!taskId || !project) return;
+            try{
+
+                 const res = await axios.post(BASE_URL+"/task/editTask/"+ taskId ,{status:'done'} , {withCredentials:true});
+                 dispatch(addTask(res.data.data))
+
+                 const projectTasksRes = await axios.post( `${BASE_URL}/task/getProjectTask/${project._id}`, {}, { withCredentials: true });
+                 dispatch(addProjectTask({projectName: project.name,tasks: projectTasksRes.data.data }));
+                 navigate('/projects/project/' + project._id)
+
+            }catch(er){
+                  console.log(er?.response);
+                  return null;
+            }
+            
+      };
+
+      const handleTaskDelete = async()=>{
+            const res = await axios.delete(BASE_URL+"/task/deleteTask/"+ taskId  , {withCredentials:true});
+
+            dispatch(removeTasks({projectName :project.name,
+                  task : res?.data?.data}))
+            navigate('/projects/project/' + project._id)
+
+      }
       const getTaskInfo = async()=>{
             try{
 
@@ -37,16 +66,16 @@ const TaskPage = () => {
 
       },[]);
 
-      if(!task) return;
-      console.log("TASK",task)
+      if(!task && !project) return;
+      
 
   return (
     task && <div className='pl-10 pr-8 pb-10 pt-4 '>
       <div className='flex justify-between items-center'>
-            <h1 className='text-xl font-bold'>{task.title.toUpperCase()}</h1>
+            <h1 className='text-xl font-bold'>TASK</h1>
             <div className='my-4 flex justify-end'>
-                 <button className='btn bg-red-700 hover:bg-base-300 shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2   mr-4 ' >Delete Task</button>
-               <button   className='btn bg-blue-500  text-white shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2'>Task Completed</button>
+                 <button className='btn bg-red-700 hover:bg-base-300 shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2   mr-4 'onClick={()=>handleTaskDelete(task)} >Delete Task</button>
+               <button   className='btn bg-blue-500  text-white shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2'onClick={()=>handleTaskCompleted(task)}>{task.status ==='done'?"Task Completed":"Complete Task"}</button>
 
                </div>
       </div>

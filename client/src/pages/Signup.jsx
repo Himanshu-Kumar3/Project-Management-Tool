@@ -13,10 +13,10 @@ const Signup = () => {
   const dispatch = useDispatch();
   const [isSignIn , setIsSignIn] = useState(false);
   const [errorMessage , setErrorMessage] = useState("");
-  const [firstName,setFirstName] = useState("Samir");
-  const [lastName , setLastName] = useState("Kumar");
-  const [emailId , setEmail] = useState("samir23@gmail.com");
-  const [password ,setPassword]= useState("Samir@123");
+  const [firstName,setFirstName] = useState("");
+  const [lastName , setLastName] = useState("");
+  const [emailId , setEmail] = useState("");
+  const [password ,setPassword]= useState("");
   const navigate = useNavigate();
 
  

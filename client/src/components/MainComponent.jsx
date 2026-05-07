@@ -9,9 +9,7 @@ const MainComponent = () => {
       <Header/>
       <Outlet/>
        {/* Footer. */}
-      <div className=' w-full ml-2 mt-4 shadow-md'>
-        <Footer/>
-      </div>
+     
     </div>
   )
 }

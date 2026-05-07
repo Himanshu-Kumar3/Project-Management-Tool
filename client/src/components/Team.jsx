@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { BASE_URL } from '../utils/constants';
 
@@ -15,10 +15,40 @@ const Team = () => {
   const [error , setError] = useState('');
   const [isToast , setIsToast] = useState(false);
   const status = 'sent';
-
+    const [admin, setAdmin] = useState(null);
+  const [isLoadingAdmin, setIsLoadingAdmin] = useState(true);
   
 
-  const  admin = (workspace.ownerId === userData._id)? userData : null;
+  const handleOwner =async(userId)=>{
+    try{
+      const res = await axios.post(BASE_URL + "/user/getAdmin/"+userId , {} ,{withCredentials:true} );
+
+      console.log("RESPONSE DATA " +res?.data.data)
+      return res?.data.data
+
+    }catch(er){
+      console.log(er?.response.data.message);
+      return null;
+    }
+
+  }
+
+  useEffect(() => {
+    const getAdmin = async () => {
+      setIsLoadingAdmin(true);
+      if (workspace?.ownerId && userData?._id) {
+        if (workspace.ownerId === userData._id) {
+          setAdmin(userData);
+        } else {
+          const ownerData = await handleOwner(workspace.ownerId);
+          setAdmin(ownerData);
+        }
+      }
+      setIsLoadingAdmin(false);
+    };
+    
+    getAdmin();
+  }, [workspace?.ownerId, userData?._id]);
 
   const handleAddMember = async()=>{
     try{
@@ -44,6 +74,19 @@ const Team = () => {
   const teamMember = workspace.members;
 
   const activeProjects = projects.filter(project => project.status === 'active');
+    if (isLoadingAdmin) {
+    return (
+      <div className='ml-2 pl-10 pr-8 py-6'>
+        <div className="flex justify-center items-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading team information...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   
   return (
     <div className='ml-2 pl-10 pr-8 py-6'>
@@ -107,10 +150,11 @@ const Team = () => {
           </tr>
         </thead>
         <tbody className='text-sm '>
-          <tr>
+         {admin && <tr>
+            {console.log("admin" + admin.emailId)}
             <td className='text-gray-600 pl-4 pb-3 pt-3 tracking-wide'> {admin.emailId}</td>
             <td><span className='text-purple-500 bg-purple-500/10 px-1 rounded-lg'>Owner</span></td>
-          </tr>
+          </tr>}
           {teamMember.map((member)=><tr key={member._id}>
             <td className='text-gray-600  pl-4 pb-3 tracking-wide'> {member.memberId}</td>
             <td><span className='text-purple-500 bg-purple-500/10 px-1 rounded-lg'>{member.role}</span></td>

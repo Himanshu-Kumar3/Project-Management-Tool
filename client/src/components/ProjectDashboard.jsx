@@ -20,7 +20,7 @@ const ProjectDashboard = () => {
 
       const getProjects = async()=>{
             try{
-                  if(projects.length !== 0) return ;
+                  if(projects.length > 0) return ;
                   const res =  await axios.post(BASE_URL + "/workspace/getProjects/" +workspace._id  , {} ,{withCredentials:true} );
 
                   
@@ -113,6 +113,7 @@ return (
       <div className=" rounded-md ">
             {currentProjects.slice(0,3).map((project) =>{
                 const formattedDate = formatDate(project.startDate);
+                const formattedEndDate = formatDate(project.endDate);
                   return <div className="p-6 border-b border-gray-400 rounded-sm hover:bg-base-200 hover:cursor-pointer" key={project._id} onClick={()=>handleProjectClick(project)}>
                         <div className=" flex justify-between">
                               <div>
@@ -125,15 +126,19 @@ return (
 
                          </div>
 
+                   <div className='flex justify-between '>
                   <p className="text-xs text-zinc-600 pt-1"><i className="fa-regular fa-calendar"></i> {formattedDate}</p>
-
+                  <p className="text-xs text-zinc-600 pt-1"><i className="fa-regular fa-calendar"></i>{formattedEndDate}</p>
+                   </div>
+                   <p className='text-xs text-zinc-600 pt-1'>{project.members.length || ''}</p>
+                   
                   <div className='flex justify-between mt-3 mb-1 '>
                         <p className='font-semibold text-sm'>progress</p>
                         <p className='font-semibold text-md'>
-                            {project.range || 0}%  
+                            {project.progress || 0}%  
                         </p>
                   </div>
-                  <input type='range' min={0} max={100}   value={project.range || 0} readOnly  className='w-full accent-blue-500' />
+                  <input type='range' min={0} max={100}   value={project.progress || 0} readOnly  className='w-full accent-blue-500' />
 
             </div>})}
 

@@ -37,7 +37,7 @@ userRouter.get('/user/getWorkspace' , userAuth , async (req, res)=>{
                  {
                   $or: [
                      { ownerId: user._id },    // Exact match on ownerId field
-                     {  "members.memberId": user.email }      // Checks if user._id exists in members array
+                     {  "members.memberId": user.emailId }      // Checks if user._id exists in members array
                  ]
 
                  }
@@ -84,5 +84,20 @@ userRouter.get("/user/getUser" ,userAuth , async(req, res)=>{
       }
 })
 
+userRouter.post("/user/getAdmin/:userId" ,userAuth , async(req, res)=>{
+      try{
+            const {userId} = req.params;
+            const isUser = await User.findOne({_id : userId});
+            if(!isUser){
+                  return res.status(404).send({message : "User not found"});
+            }
+
+            res.json({message : "Admin Info" , data: isUser});
+
+
+      }catch(er){
+            res.status(400).send({message : "ERROR : " + er.message});
+      }
+})
 
 module.exports = userRouter;

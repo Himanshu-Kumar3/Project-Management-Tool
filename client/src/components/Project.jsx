@@ -28,12 +28,12 @@ const Project = () => {
       // currentProjectTasks
       const currentProject = projectTask[project?.name] || [];
 
-//       const completedTasks = currentProjectTasks.filter(task => 
-//     task?.status === 'completed' || task?.status === 'done'
-//   ).length;
-//   const inProgressTasks = currentProjectTasks.filter(task => 
-//     task?.status === 'in progress' || task?.status === 'pending'
-//   ).length;
+      const completedTasks = currentProject.filter(task => 
+    task?.status === 'completed' || task?.status === 'done'
+  ).length;
+  const inProgressTasks = currentProject.filter(task => 
+    task?.status === 'in progress' || task?.status === 'pending' ||task?.status === 'to do'
+  ).length;
 
  
 
@@ -60,14 +60,14 @@ const Project = () => {
                      <p className='text-sm font-semibold'>Completed</p>
                      <span className='text-black'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill='#50C878'><path d="m422-232 207-248H469l29-227-185 267h139l-30 208ZM320-80l40-280H160l360-520h80l-40 320h240L400-80h-80Zm151-390Z"/></svg></span>
                   </div>
-                  <p className='py-2 text-2xl font-bold text-emerald-500'>{0} </p>
+                  <p className='py-2 text-2xl font-bold text-emerald-500'>{completedTasks || 0} </p>
             </div>
             <div className='w-50 border border-gray-400 rounded-sm p-2 md:mr-3 mt-10'>
                   <div className='flex justify-between'>
                      <p className='text-sm font-semibold'>In progress</p>
                      <span className='text-black'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill='#F05E1B'><path d="m422-232 207-248H469l29-227-185 267h139l-30 208ZM320-80l40-280H160l360-520h80l-40 320h240L400-80h-80Zm151-390Z"/></svg></span>
                   </div>
-                  <p className='py-2 text-2xl font-bold text-amber-500'>{0} </p>
+                  <p className='py-2 text-2xl font-bold text-amber-500'>{inProgressTasks||0} </p>
             </div>
             <div className='w-50 border border-gray-400 rounded-sm p-2 mt-10'>
                   <div className='flex justify-between'>

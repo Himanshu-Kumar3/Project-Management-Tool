@@ -102,11 +102,11 @@ const ProjectSetting = ({project , currentProject}) => {
       {/* Member Div */}
       <div className='w-[40%] min-h-20 rounded-md ml-10 border border-gray-300 shadow-md px-6 py-4'>
         <div className='flex justify-between'>
-          <h2 className='text-lg font-semibold'>Team Members (<span>0</span>)</h2>
+          <h2 className='text-lg font-semibold'>Team Members (<span>{project.members.length + 1 || 1}</span>)</h2>
           <span className='border border-gray-400 px-1 hover:bg-gray-200 cursor-pointer rounded-md py-1 text-sm' onClick={()=>setIsAddmember(true)}><i className="fa-solid fa-plus"></i></span>
         </div>
         <div className='flex justify-between items-baseline mt-6'>
-          <span className='text-sm'>himanshu23@gmail.com</span>
+          <span className='text-sm font-semibold'>{project.teamLeadEmail}</span>
           <span className='border border-gray-400 px-2 py-1 font-semibold tracking-wide text-xs rounded-md'>Team Lead</span>
         </div>
       </div>

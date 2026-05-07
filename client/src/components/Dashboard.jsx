@@ -117,7 +117,10 @@ const Dashboard = () => {
                 />
             )}
      
-     
+     {/* <Footer/> */}
+      <div className=' w-full  mt-4 shadow-md'>
+        <Footer/>
+      </div>
     </div>
   );
 

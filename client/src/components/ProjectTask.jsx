@@ -1,6 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const ProjectTask = ({currentProject , formatDate}) => {
+  const navigate = useNavigate();
+  const handleTaskClick = (task)=>{
+    navigate("/project/task/"+ task._id)
+    
+  }
       
   return (
     <div>
@@ -46,8 +51,8 @@ const ProjectTask = ({currentProject , formatDate}) => {
               {currentProject.length > 0  ? (<tbody>
                  { currentProject.map(task => (
                   
-           <Link to={"/project/task/"+ task._id} key={task._id}> <tr >
-                  <td>
+           <tr key={task._id} onClick={()=>handleTaskClick(task)} className='cursor-pointer'>
+                  <td className='hover:text-blue-500'>
                     {task.title}
                 </td>
                  <td>
@@ -56,7 +61,7 @@ const ProjectTask = ({currentProject , formatDate}) => {
                  <td>{task.priority}</td>
                  <td>{task.assignedTo}</td>
                  <td>{formatDate(task.dueDate)}</td>
-                </tr></Link> 
+                </tr> 
 
                  ))}       
     </tbody>):(

@@ -72,6 +72,7 @@ taskRouter.post("/task/editTask/:taskId" ,userAuth ,async(req, res)=>{
             }
 
             Object.keys(editData).forEach(key => task[key] = editData[key]);
+            await task.save();
 
             res.send({message :"DATA Updated successfuly" , data :task});
 
@@ -86,7 +87,8 @@ taskRouter.post("/task/editTask/:taskId" ,userAuth ,async(req, res)=>{
 taskRouter.delete("/task/deleteTask/:taskId" , userAuth , async(req, res)=>{
       try{
             const {taskId} = req.params;
-            const task = await Task.findByIdAndDelete({_id :taskId});
+            console.log("Task Id " + taskId)
+            const task = await Task.findByIdAndDelete(taskId);
             if(!task){
                   return res.status(404).json({message :"Task not found"})
             }
