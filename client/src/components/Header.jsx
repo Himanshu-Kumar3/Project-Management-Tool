@@ -6,7 +6,9 @@ import { BASE_URL } from '../utils/constants';
 import { useNavigate } from 'react-router-dom';
 import { removeWorkspace } from '../utils/workspaceSlice';
 import { removeProjects } from '../utils/projectSlice';
-import { removeTasks } from '../utils/taskSlice';
+import { removeAllTasks, removeTasks } from '../utils/taskSlice';
+import { removeUser } from '../utils/userSlice';
+import ManageAccount from './ManageAccount';
 
 
 const Header = () => {
@@ -16,8 +18,11 @@ const Header = () => {
   const user = useSelector(store => store.user);
   const userData = user?.data || null;
   const navigate = useNavigate();
+  const [manageAccount , setManageAccount] = useState(false)
 
   const handleTheme = ()=>{
+
+    
     
   
      if(isTheme === true){
@@ -30,18 +35,25 @@ const Header = () => {
   }
   const handleSignout = async()=>{
     try{
-      await axios.get(BASE_URL + "/logout" , {withCredentials:true});
+     const res =  await axios.get(BASE_URL + "/logout" , {withCredentials:true});
+
+      console.log("API response:", res);
+      dispatch(removeUser());
       dispatch(removeWorkspace());
       dispatch(removeProjects());
-      dispatch(removeTasks());
+      // dispatch(removeTasks());
+      dispatch(removeAllTasks());
+      
       navigate("/Signup");
+      return;
 
     }catch(er){
-      console.log(er.response.data.message);
+      console.log(er.response);
+      navigate("/signup")
     }
   } 
 
-  if(!userData) return ;
+  if(!userData) return null ;
 
   return (
     <div className='w-[83%] flex  bg-base-100 fixed top-0 ml-2 z-10 justify-end shadow-sm p-2 px-15 border-b border-gray-300'>
@@ -74,12 +86,16 @@ const Header = () => {
             </div>
           </a>
         </li>
-        <li className='mt-2 hover:bg-base-200'><a className='py-3'> <i className="fa-solid fa-gear ml-3 mr-7 text-sm"></i> Manage Account</a></li>
+        <li className='mt-2 hover:bg-base-200'><a className='py-3' onClick={()=>setManageAccount(true)}> <i className="fa-solid fa-gear ml-3 mr-7 text-sm"></i> Manage Account</a></li>
         <li className='mt-2 ' onClick={handleSignout}><a className='py-3'><i className="fa-solid fa-right-from-bracket ml-3 mr-7 text-sm"></i> Sign out</a></li>
       </ul>
     </div>
       </div>
 
+
+    {/* MANAGE ACCOUNT */}
+
+     {manageAccount && <ManageAccount user={userData} closeManageAccount={()=>setManageAccount(false)}/>}
     </div>
   )
 }

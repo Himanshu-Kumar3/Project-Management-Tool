@@ -136,6 +136,8 @@ const CreateProject = ({data , onClose}) => {
                    <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' value={teamLeadEmail} onChange={(e)=>setTeamLeadEmail(e.target.value)}>
                         <option value="planning" defaultChecked>No Lead</option>
                         <option value={user?.data.emailId}>{user?.data.emailId}</option>
+                        {data?.members.map((member)=><option key={member._id} value={member.memberId}>{member.memberId}</option>)}
+
                    </select>
                </fieldset>
                  <fieldset className="fieldset ">

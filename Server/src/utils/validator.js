@@ -12,4 +12,16 @@ const validateSignupUser = (req)=>{
       
 };
 
-module.exports =  validateSignupUser;
+const validateEditPassword = (req)=>{
+       const { newPassword , verifiedNewPassword} = req.body;
+       if(newPassword !== verifiedNewPassword ){
+            throw new Error("New and retype  passwords are not same");
+       }
+       if(!validator.isStrongPassword(newPassword)){
+            throw new Error("Please use a Strong password !")
+       }
+       return true;
+
+}
+
+module.exports =  {validateSignupUser , validateEditPassword};

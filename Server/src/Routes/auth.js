@@ -2,7 +2,7 @@ const express = require("express");
 const User = require("../Model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
-const validateSignupUser = require("../utils/validator");
+const {validateSignupUser} = require("../utils/validator");
 require("dotenv").config();
 
 const authRouter = express.Router()

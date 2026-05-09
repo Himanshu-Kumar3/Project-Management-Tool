@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import axios from "axios"
 import { BASE_URL } from '../utils/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {addProjectTask, appendTask} from "../utils/taskSlice";
 
 const CreateTask = ({data , onclose}) => {
+     const user = useSelector(store => store.user);
       const [title , setTitle] = useState("");
       const [discription , setDiscription] = useState("No Discription");
       const [category , setCategory] = useState("feature");
       const [priority , setPriority] = useState("medium");
-      const [assignedTo , setAsignee] = useState("samir23@gmail.com");
+      const [assignedTo , setAsignee] = useState("");
       const [status , setStatus] = useState("to do");
       const [dueDate , setDuedate] = useState("");
       const [error , setError] = useState(null);
       const [isToast , setIsToast] = useState(false);
+      
 
 
       const dispatch = useDispatch();
@@ -27,10 +29,6 @@ const CreateTask = ({data , onclose}) => {
       
       const handleSubmitButton = async()=>{
           try{
-               const passingData = {
-                    title , discription , category, priority ,status , dueDate, assignedTo
-
-               }
                
                const res = await axios.post(BASE_URL +"/task/createTask/"+ project._id , {
                     title , discription , category, priority ,status , dueDate, assignedTo
@@ -57,6 +55,7 @@ const CreateTask = ({data , onclose}) => {
           }
       }
 
+      let userData = user.data;
      
 
   return (
@@ -98,10 +97,12 @@ const CreateTask = ({data , onclose}) => {
                <div className='grid grid-cols-2 gap-4'>
               <fieldset className="fieldset ">
                    <legend className="fieldset-legend text-black text-xs ">Asignee</legend>
-                   <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number'  >
+                   {userData && <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' value={assignedTo} onChange={(e)=>setAsignee(e.target.value)} >
                         <option value="planning" defaultChecked>No Asignee</option>
-                        <option value={assignedTo}>{assignedTo}</option>
-                   </select>
+                        <option value={userData.emailId}>{userData.emailId}</option>
+                        {data?.members.map((member)=><option key={member._id} value={member.memberEmail}>{member.memberEmail}</option>)}
+
+                   </select>}
                </fieldset>
                
                <fieldset className="fieldset ">

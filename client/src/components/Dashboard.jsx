@@ -1,17 +1,17 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+
+import React, {  useState } from 'react'
+import { useSelector } from 'react-redux';
 import { BASE_URL } from '../utils/constants';
-import {addUser} from "../utils/userSlice";
+;
 import ProjectDashboard from './ProjectDashboard';
 import CreateProject from './CreateProject';
 import RecentTaskBoard from './RecentTaskBoard';
-import { useNavigate } from 'react-router-dom';
+
 import Footer from './Footer';
 
 
 const Dashboard = () => {
-  const navigate = useNavigate()
+
   const user = useSelector(store => store.user);
   const {workspace} = useSelector(store => store.workspace);
   const {projects} = useSelector(store=> store.project);

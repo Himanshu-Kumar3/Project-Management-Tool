@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { BASE_URL } from '../utils/constants';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateProjects } from '../utils/projectSlice';
 
 const ProjectSetting = ({project , currentProject}) => {
 
+  const {workspace} = useSelector(store=> store.workspace);
   const [name , setName] = useState(project?.name || '');
   const [discription , setDiscription] = useState(project?.discription || '');
   const [status , setStatus] = useState(project?.status || '');
@@ -121,10 +122,12 @@ const ProjectSetting = ({project , currentProject}) => {
           <h1 className='font-semibold text-lg'>Add Member to project</h1>
           <p className='text-sm '>Adding to project : <span className='text-blue-500'>{project.name || "movie site"}</span></p>
 
-          <select className='mt-4 px-2 py-2 w-full border border-gray-400 rounded-md'>
-            <option defaultChecked>Select a member</option>
-            {/* <option>{}</option> */}
-          </select>
+          {/* <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' value={teamMember} onChange={(e)=>setTeamMember(e.target.value)}>
+                        <option value="planning" defaultChecked>No Member</option>
+                        <option value={user?.data.emailId}>{user?.data.emailId}</option>
+                        {data?.members.map((member)=><option key={member._id} value={member.memberId}>{member.memberId}</option>)}
+
+                   </select> */}
 
           <div className='mt-10 mb-2 flex justify-end'>
             <button onClick={()=>setIsAddmember(false)} className='border  border-gray-300 px-3 py-2 mr-2 font-semibold rounded-md hover:bg-base-300 shadow-sm cursor-pointer'>Cancel</button>

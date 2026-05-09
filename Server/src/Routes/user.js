@@ -3,9 +3,15 @@ const jwt = require("jsonwebtoken");
 const User = require("../Model/user");
 const userAuth = require("../middleware/auth");
 const Workspace = require("../Model/workspace");
+const bcrypt = require('bcrypt');
+const { validateEditPassword } = require("../utils/validator");
+
 
 
 const userRouter = express.Router();
+
+
+const SAFE_USER_UPDATE = ['firstName' ,"lastName"];
 
 userRouter.post("/user/createWorkspace" ,userAuth , async(req, res)=>{
       try{
@@ -97,6 +103,56 @@ userRouter.post("/user/getAdmin/:userId" ,userAuth , async(req, res)=>{
 
       }catch(er){
             res.status(400).send({message : "ERROR : " + er.message});
+      }
+});
+
+userRouter.post("/user/updateUser" , userAuth, async(req, res)=>{
+      try{
+            const user = req.user;
+
+            const updatedInfo = req.body;
+            
+            const isUpdatePossible = Object.keys(updatedInfo).every(key => SAFE_USER_UPDATE.includes(key));
+
+            if(!isUpdatePossible){
+                  return res.status(400).send({message :"Update not Possible...!"});
+            }
+
+            const updatedUser = await User.findOne({_id : user._id});
+
+            Object.keys(updatedInfo).forEach(key => updatedUser[key] = updatedInfo[key]);
+
+           const newUser =  await updatedUser.save();
+           res.send({message :"Profile Updation Sucessful" , data:newUser});
+
+
+
+      }catch(er){
+            res.status(400).send({message :"ERROR : " + er.message});
+      }
+});
+
+userRouter.post("/user/updatePassword" , userAuth  , async(req, res)=>{
+      try{
+            const user = req.user;
+
+      const {currentPassword  , newPassword} = req.body;
+
+      const isCorrectPassword =await  user.passwordValidator(currentPassword);
+      if(!isCorrectPassword){
+            return res.status(400).send({message : "Incorrect Password"});
+      }
+
+      if(validateEditPassword(req)){
+            const encryptedNewPassword =await  bcrypt.hash(newPassword , 10);
+            user.password = encryptedNewPassword;
+          const newUser =  await  user.save();
+             return res.json({message :"Password updated successfuly" , data : newUser})
+
+
+      }
+      }catch(er){
+            res.status(400).send({message:"ERROR : " +er.message})
       }
 })
 

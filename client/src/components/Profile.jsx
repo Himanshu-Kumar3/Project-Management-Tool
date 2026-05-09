@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { BASE_URL } from '../utils/constants';
 import { useDispatch } from 'react-redux';
+import { updateUser } from '../utils/userSlice';
 
 const Profile = ({user}) => {
+
       const [isUpdateProfile , setIsUpdateProfle] = useState(false)
-      const [firstName , setFirstName] = useState('')
-      const [lastName , setLastName] = useState('');
+      const [firstName , setFirstName] = useState(user.firstName ||'')
+      const [lastName , setLastName] = useState(user.lastName || '');
       const [error , setError] = useState('');
 
       const dispatch = useDispatch();
@@ -14,12 +16,12 @@ const Profile = ({user}) => {
       const handleSubmitProfile = async()=>{
             try{
                   const res = await axios.post(BASE_URL + "/user/updateUser" , {firstName , lastName} ,{withCredentials:true});
-                  
-                  dispatch(updateUser)
-
+                  dispatch(updateUser(res?.data)); 
+                  setIsUpdateProfle(false);                 
 
             }catch(er){
                   console.log(er.response)
+                  setError(er?.response?.data.message)
             }
       }
   return (
@@ -59,6 +61,9 @@ const Profile = ({user}) => {
                               <input type="text" value={lastName} onChange={(e)=> setLastName(e.target.value)} className="px-3 py-2 border border-gray-400 rounded-sm    " placeholder="Enter name of project" />
                        </fieldset>
                         </div>
+                        <p className='text-xs text-red-500'>
+                              {error}
+                        </p>
 
 
                        <div className='my-4 flex justify-end'>

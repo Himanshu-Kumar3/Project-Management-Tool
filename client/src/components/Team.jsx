@@ -149,6 +149,8 @@ const Team = () => {
             <td className='font-semibold'>Role</td>
           </tr>
         </thead>
+        
+        {/* MEMBER LIST */}
         <tbody className='text-sm '>
          {admin && <tr>
             {console.log("admin" + admin.emailId)}
@@ -165,6 +167,8 @@ const Team = () => {
       </table>
 
       </div>
+
+      {/* ADDING NEW MEMBER */}
       {isAddMember && <div className='fixed top-0 left-0 w-full h-full backdrop-blur-sm bg-black/30 flex justify-center items-center overflow-hidden z-10 border border-gray-300'>
         <div className='bg-white w-[30%] rounded-md px-4 py-4'>
           <h1 className='font-semibold text-lg text-black'>Add Member to Workspace</h1>
