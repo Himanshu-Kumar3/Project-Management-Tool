@@ -1,10 +1,12 @@
-import React, { act, useState } from 'react'
+import React, { useState } from 'react'
 import CreateTask from './CreateTask';
-import { useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProjectTask from './ProjectTask';
 
 import ProjectSetting from './ProjectSetting';
+import { BASE_URL } from '../utils/constants';
+
 
 const Project = () => {
 
@@ -12,8 +14,6 @@ const Project = () => {
       const {projectTask} = useSelector(store => store.task);
       const [isCreateProject , setIsCreateproject] = useState(false);
       const [activeView , setActiveview] = useState('task');
-
-     
 
      const formatDate = (dateString) => {
        const date = new Date(dateString);
@@ -23,8 +23,6 @@ const Project = () => {
        return `${day} ${month}, ${year}`;
       };
 
-
-      if(!project) return;
       // currentProjectTasks
       const currentProject = projectTask[project?.name] || [];
 
@@ -35,7 +33,9 @@ const Project = () => {
     task?.status === 'in progress' || task?.status === 'pending' ||task?.status === 'to do'
   ).length;
 
- 
+
+if(!project) return;
+      
 
   return (
     <div className='p-8 pl-16'>
@@ -74,7 +74,7 @@ const Project = () => {
                      <p className='text-sm font-semibold'>Team Member</p>
                      <span className='text-black'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill='#0000FF'><path d="m422-232 207-248H469l29-227-185 267h139l-30 208ZM320-80l40-280H160l360-520h80l-40 320h240L400-80h-80Zm151-390Z"/></svg></span>
                   </div>
-                  <p className='py-1 text-2xl font-bold text-blue-500'>{0} </p>
+                  <p className='py-1 text-2xl font-bold text-blue-500'>{project.members.length + 1 || 0} </p>
             </div>
       </div>
 

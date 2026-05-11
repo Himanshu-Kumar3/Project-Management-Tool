@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addProject } from '../utils/projectSlice';
+import { addProject,  } from '../utils/projectSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { addProjectTask } from '../utils/taskSlice';
 
 const ProjectCard = ({data}) => {
-      const {name , discription , priority , status, progress} = data;
+      const {name , discription , priority , status, progress , _id} = data;
       // const [range , setRange] = useState(0)
       const navigate = useNavigate();
 
       const dispatch = useDispatch();
       const projectTask = useSelector(store =>store.task.projectTask)
-
+            
       const handleProjectClick = async()=>{
         try{
         dispatch(addProject(data));
@@ -28,6 +27,9 @@ const ProjectCard = ({data}) => {
         }
 
       }
+
+    
+       
   return (
     <div className=' cursor-pointer  hover:bg-base-200 hover:scale-105 shadow-lg mr-4 rounded-md mt-8 p-2 px-3 w-[full] sm:w-[30%] md:w-[30%] group' onClick={handleProjectClick}>
       <h3 className='text-sm font-bold  group-hover:text-blue-500  '>{name}</h3>

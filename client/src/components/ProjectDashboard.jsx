@@ -130,7 +130,7 @@ return (
                   <p className="text-xs text-zinc-600 pt-1"><i className="fa-regular fa-calendar"></i> {formattedDate}</p>
                   <p className="text-xs text-zinc-600 pt-1"><i className="fa-regular fa-calendar"></i>{formattedEndDate}</p>
                    </div>
-                   <p className='text-xs text-zinc-600 pt-1'>{project.members.length || ''}</p>
+                   <p className='text-xs text-zinc-600 pt-1'>{project.members.length + 1 || ''} members</p>
                    
                   <div className='flex justify-between mt-3 mb-1 '>
                         <p className='font-semibold text-sm'>progress</p>

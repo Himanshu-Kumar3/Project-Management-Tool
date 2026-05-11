@@ -16,16 +16,17 @@ const ProjectSetting = ({project , currentProject}) => {
   const [isAddMember , setIsAddmember] = useState(false);
   const dispatch = useDispatch();
   const [isToast , setIsToast] = useState(false);
+  const [teamMember , setTeamMember] = useState('');
+
+
 
 
   const handleSaveChanges = async()=>{
     try{
       const updates = {name , discription , status, priority ,progress: Number(progress)};
-      console.log("UPDATES" , updates)
+      
       const res = await axios.post(BASE_URL + "/project/editproject/" +project._id ,updates, {withCredentials:true} );
       dispatch(updateProjects(res?.data.data))
-
-      console.log(res.data.data)
 
       setIsToast(true);
             setTimeout(()=>{
@@ -33,10 +34,25 @@ const ProjectSetting = ({project , currentProject}) => {
             }, 2000);
 
     }catch(er){
-      console.log(er?.response)
-      // setError(er.response.message)
+      setError(er.response?.data?.message)
     }
     
+  }
+
+
+  const handleAddMember = async() =>{
+    try{
+      const res = await axios.post(BASE_URL+"/project/addMember/"+project._id ,{memberEmail :teamMember} , {withCredentials:true});
+
+     
+      dispatch(updateProjects(res?.data?.data));
+      setIsAddmember(false);
+  
+
+    }catch(er){
+      setError(er?.response?.data.message)
+
+    }
   }
   return (
     <div>
@@ -106,10 +122,19 @@ const ProjectSetting = ({project , currentProject}) => {
           <h2 className='text-lg font-semibold'>Team Members (<span>{project.members.length + 1 || 1}</span>)</h2>
           <span className='border border-gray-400 px-1 hover:bg-gray-200 cursor-pointer rounded-md py-1 text-sm' onClick={()=>setIsAddmember(true)}><i className="fa-solid fa-plus"></i></span>
         </div>
-        <div className='flex justify-between items-baseline mt-6'>
-          <span className='text-sm font-semibold'>{project.teamLeadEmail}</span>
+        <div className=' mt-6'>
+          <div className='flex justify-between items-baseline'>
+            <span className='text-sm font-semibold'>{project.teamLeadEmail}</span>
           <span className='border border-gray-400 px-2 py-1 font-semibold tracking-wide text-xs rounded-md'>Team Lead</span>
-        </div>
+          
+          </div>
+        {project.members && ( <div className='mt-2'>
+            {project.members.map(member => (<div key={member._id} className='flex mt-4 justify-between items-baseline'>
+            <span className='text-sm font-semibold'>{member.memberEmail}</span>
+          <span className='border border-gray-400 px-2 py-1 font-semibold tracking-wide text-xs rounded-md'>member</span>
+          </div>) )}
+            </div>)}
+         </div>
       </div>
 
      
@@ -122,16 +147,16 @@ const ProjectSetting = ({project , currentProject}) => {
           <h1 className='font-semibold text-lg'>Add Member to project</h1>
           <p className='text-sm '>Adding to project : <span className='text-blue-500'>{project.name || "movie site"}</span></p>
 
-          {/* <select className='px-3 py-2 border border-gray-400 rounded-sm' type='number' value={teamMember} onChange={(e)=>setTeamMember(e.target.value)}>
-                        <option value="planning" defaultChecked>No Member</option>
-                        <option value={user?.data.emailId}>{user?.data.emailId}</option>
-                        {data?.members.map((member)=><option key={member._id} value={member.memberId}>{member.memberId}</option>)}
+          <select className=' py-2 border border-gray-400 rounded-sm w-full mt-4 px-3 text-sm' type='number' value={teamMember} onChange={(e)=>setTeamMember(e.target.value)}>
+                        <option value="planning" defaultChecked>Add Member</option>
+                        {/* <option value={user?.data.emailId}>{user?.data.emailId}</option> */}
+                        {workspace?.members.map((member)=><option key={member._id} value={member.memberId}>{member.memberId}</option>)}
 
-                   </select> */}
+                   </select>
 
           <div className='mt-10 mb-2 flex justify-end'>
             <button onClick={()=>setIsAddmember(false)} className='border  border-gray-300 px-3 py-2 mr-2 font-semibold rounded-md hover:bg-base-300 shadow-sm cursor-pointer'>Cancel</button>
-            <button  className='border border-gray-300 px-3 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm cursor-pointer hover:text-gray-300'>Add Member</button>
+            <button onClick={handleAddMember}  className='border border-gray-300 px-3 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm cursor-pointer hover:text-gray-300'>Add Member</button>
           </div>
 
         </div>
