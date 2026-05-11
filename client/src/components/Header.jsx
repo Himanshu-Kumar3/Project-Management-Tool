@@ -37,7 +37,6 @@ const Header = () => {
     try{
      const res =  await axios.get(BASE_URL + "/logout" , {withCredentials:true});
 
-      console.log("API response:", res);
       dispatch(removeUser());
       dispatch(removeWorkspace());
       dispatch(removeProjects());
