@@ -10,7 +10,6 @@ const Invites = () => {
             const getConnection = async ()=>{
             try{
             const res = await axios.get(BASE_URL + "/getConnection" , {withCredentials:true});
-            console.log(res.data)
             setConnectionUser(res?.data?.data)
          }catch(er){
                   console.log(er?.response.message.data);
@@ -26,7 +25,7 @@ const Invites = () => {
      if(!connectionUsers) return;
 
      if(connectionUsers.length === 0){
-     return  <h1 className='flex justify-center my-8 font-bold'> No Connection Found !</h1>
+     return  <h1 className='flex justify-center my-8 font-bold'> No Invitation Found !</h1>
      }
 
   return (

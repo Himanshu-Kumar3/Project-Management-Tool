@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import {  addWorkspaces } from '../utils/workspaceSlice';
 
 const Invite = ({user}) => {
-      console.log(user)
+      
       const dispatch = useDispatch();
 
       const {fromUserEmail} = user;
@@ -14,15 +14,14 @@ const Invite = ({user}) => {
         try{
           const res = await axios.post(BASE_URL + "/reviewConnection/accepted/" + user._id ,{}, {withCredentials:true});
 
-          console.log(res.data.data.workspaceId)
+      
           const workspaceId = res?.data.data.workspaceId;
 
           // Adding member to the database 
           const updatedWorkspace = await axios.post(BASE_URL + "/user/addMember/" + workspaceId  ,{} ,{withCredentials:true})
-          console.log(updatedWorkspace);
+       
           //  get all the workspace again and update the store with the workspace
           const allWorkspacesRes = await axios.get(BASE_URL + "/user/getWorkspace", {withCredentials: true});
-          console.log(allWorkspacesRes?.data?.data);
           // Step 4: Update Redux store with all workspaces
           dispatch(addWorkspaces(allWorkspacesRes?.data?.data));
           
