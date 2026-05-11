@@ -4,7 +4,7 @@ const userAuth = require("../middleware/auth");
 const Project = require("../Model/project");
 const taskRouter = express.Router();
 
-const SAFE_DATA = ["status" , "priority" , "dueDate"];
+const SAFE_DATA = ["status" , "priority" , "dueDate" , "messages"];
 
 taskRouter.post("/task/createTask/:projectId" , userAuth , async(req , res)=>{
       try{
@@ -83,11 +83,33 @@ taskRouter.post("/task/editTask/:taskId" ,userAuth ,async(req, res)=>{
       }
 }  );
 
+taskRouter.post("/task/editMessage/:taskId" , userAuth , async(req, res)=>{
+      try{
+            const {taskId} = req.params;
+            const {senderEmail , messageText} = req.body;
+
+            const isTask = await Task.findOne({_id : taskId});
+
+            if(!isTask){
+                  res.status(404).send({message :"Task not found"})
+            }
+
+            isTask['messages'].push({senderEmail ,messageText });
+            const newTask = await isTask.save();
+
+            res.json({message :"updated task " , data : newTask});
+
+
+      }catch(er){
+            res.status(400).send({message : "ERROR : " + er.message});
+
+      }
+})
+
 
 taskRouter.delete("/task/deleteTask/:taskId" , userAuth , async(req, res)=>{
       try{
             const {taskId} = req.params;
-            console.log("Task Id " + taskId)
             const task = await Task.findByIdAndDelete(taskId);
             if(!task){
                   return res.status(404).json({message :"Task not found"})
