@@ -154,6 +154,26 @@ userRouter.post("/user/updatePassword" , userAuth  , async(req, res)=>{
       }catch(er){
             res.status(400).send({message:"ERROR : " +er.message})
       }
+});
+
+userRouter.post("/user/deleteUser/:userId" , userAuth , async(req, res)=>{
+      try{
+            const {userId} = req.params;
+
+            const user = await User.findOneAndDelete({_id : userId});
+
+           if (!user){
+                  return res.status(404).send({message :"User not found"})
+            }
+
+            res.send({message : "user Deleted Successfuly"  , data :user});
+
+
+
+      }catch(er){
+            res.status(400).send({message : "ERROR : " + er.response});
+
+      }
 })
 
 module.exports = userRouter;
