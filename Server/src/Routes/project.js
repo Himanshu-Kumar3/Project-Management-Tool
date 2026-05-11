@@ -78,7 +78,7 @@ projectRouter.post("/project/addMember/:projectId" , userAuth , async(req, res)=
       
       project['members'].push({memberEmail ,projectId });
       await project.save(); 
-      res.json({message:"member added successfuly to " + project.name })
+      res.json({message:"member added successfuly to " + project.name , data:project })
  
  }catch(er){
   

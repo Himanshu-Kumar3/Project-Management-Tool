@@ -6,7 +6,7 @@ const taskSchema = new mongoose.Schema({
       title :{
             type:String,
             required:true,
-            maxlength:20,
+            maxlength:30,
             minlength:4,
             lowercase:true,
             trim:true
@@ -69,25 +69,26 @@ const taskSchema = new mongoose.Schema({
       }, workspaceId:{
             type:mongoose.Schema.Types.ObjectId,
             required:true
-      }
+      },messages : [
+            {
+                  senderEmail :{
+                        type: String,
+                        required:true, 
+                         validate(value){
+                        if(!validator.isEmail(value)){
+                        throw new Error("Invalid email !")
+                     }
+                  },
+                 },
+                 messageText :{
+                  type:String, 
+                  required:true,
+                  maxlength:100
+                 },
+            }
+      ],
 
 } , {timestamps:true});
 
 const Task = mongoose.model("Task" , taskSchema);
 module.exports = Task;
-
-
-
-      // assignedBy:{
-      //       type:String , 
-      //       required:true,
-      //        lowercase:true,
-      //       trim:true,
-      //       validate(value){
-      //             if(!validator.isEmail(value)){
-      //                   throw new Error("Invalid Email !");
-      //             }
-
-      //       }
-      // }
-      // ,

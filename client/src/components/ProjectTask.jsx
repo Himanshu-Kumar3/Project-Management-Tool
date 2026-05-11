@@ -10,30 +10,6 @@ const ProjectTask = ({currentProject , formatDate}) => {
   return (
     <div>
       <div className='mt-8'>
-            <div className='text-xs font-semibold'>
-                  <select className='px-3 py-2 border mr-4 border-gray-400 rounded-sm' >
-                        <option value="All Status">All Status</option>
-                        <option value="to do">To Do</option>
-                        <option value="in progress">In Progress</option>
-                        <option value="done"> Done</option>
-
-                  </select>
-                  <select className='px-3 py-2 border mr-4 border-gray-400 rounded-sm' >
-                        <option value="All Types">All Types</option>
-                        <option value="task">Task</option>
-                        <option value="bug">Bug</option>
-                        <option value="feature"> Feature</option>
-                        <option value="impovement"> Improvement</option>
-
-                  </select>
-                  <select className='px-3 py-2 border border-gray-400 rounded-sm' >
-                        <option value="All Status">All Priorities</option>
-                        <option value="Low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="High"> High</option>
-                  </select>
-            </div>
-
             <div className="overflow-x-auto border rounded-sm border-gray-400 mt-8">
             <table className="table">
                 {/* head */}

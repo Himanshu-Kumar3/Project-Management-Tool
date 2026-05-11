@@ -59,8 +59,7 @@ connectionRouter.post("/reviewConnection/:status/:requestId", userAuth , async(r
             const loggedInUser = req.user;
 
             const connection = await Connection.findOne({toUserEmail:loggedInUser.emailId , _id : requestId , status:'sent'});
-            
-            console.log(connection)
+      
              if(!connection){
                   return res.status(404).json({message :"No Connection Found !"})
             }

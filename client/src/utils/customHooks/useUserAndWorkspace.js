@@ -23,7 +23,7 @@ const useUserAndWorkspace = (user)=>{
                   if(!currentUser){
                         try {
                           const resUser = await axios.get(BASE_URL + "/user/getUser", { withCredentials: true });
-                          console.log("User data:", resUser.data);
+                         
                           dispatch(addUser(resUser.data));
                           currentUser = resUser.data;
                        } catch (userError) {
@@ -38,7 +38,6 @@ const useUserAndWorkspace = (user)=>{
                       // If current user exists :-
             try{
               const res = await axios.get(BASE_URL + "/user/getWorkspace", { withCredentials: true });
-              console.log("Workspace data:", res.data.data);
           
                if (res.data.data && res.data.data.length > 0) {
                    dispatch(addWorkspace(res.data.data[0]));
@@ -56,7 +55,6 @@ const useUserAndWorkspace = (user)=>{
 
      }catch(er){
               console.log(er.message);
-              console.log("Error:", er);
                navigate("/Signup");
             }
 

@@ -23,7 +23,7 @@ const Team = () => {
     try{
       const res = await axios.post(BASE_URL + "/user/getAdmin/"+userId , {} ,{withCredentials:true} );
 
-      console.log("RESPONSE DATA " +res?.data.data)
+      
       return res?.data.data
 
     }catch(er){
@@ -53,7 +53,6 @@ const Team = () => {
   const handleAddMember = async()=>{
     try{
       const res = await axios.post(BASE_URL +"/sendConnection/"+status + "/"+ workspace._id , {toUserEmail :memberEmail} , {withCredentials:true});
-      console.log(res.data.message)
       setIsToast(true);
      setTimeout(()=>{
       setIsToast(false);
@@ -69,7 +68,7 @@ const Team = () => {
   }
 
   if(!userData) return ;
-  console.log(userData)
+ 
 
   const teamMember = workspace.members;
 
@@ -153,7 +152,6 @@ const Team = () => {
         {/* MEMBER LIST */}
         <tbody className='text-sm '>
          {admin && <tr>
-            {console.log("admin" + admin.emailId)}
             <td className='text-gray-600 pl-4 pb-3 pt-3 tracking-wide'> {admin.emailId}</td>
             <td><span className='text-purple-500 bg-purple-500/10 px-1 rounded-lg'>Owner</span></td>
           </tr>}

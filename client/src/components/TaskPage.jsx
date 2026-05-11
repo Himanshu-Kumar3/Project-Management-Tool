@@ -10,6 +10,9 @@ const TaskPage = () => {
       const {taskId} = useParams();
       const dispatch = useDispatch();
 
+      const [chats , setChats] = useState('');
+      const [displayedChats , setDisplayedChats] = useState([])
+
       const formatDate = (dateString) => {
        const date = new Date(dateString);
        const day = date.getDate();
@@ -18,6 +21,7 @@ const TaskPage = () => {
        return `${day} ${month}, ${year}`;
       };
 
+      const user = useSelector(store => store.user)
       const {task} = useSelector(store => store.task);
       const {project} = useSelector(store => store.project);
       const navigate = useNavigate();
@@ -52,12 +56,27 @@ const TaskPage = () => {
             try{
 
                   const res = await axios.post(BASE_URL+"/project/getTask/"+taskId , {} , {withCredentials:true});
-
-                  console.log(res.data.data);
                   dispatch(addTask(res.data.data));
             
             }catch(er){
                   console.log(er.message)
+            }
+      }
+
+      const handleSendChat = async()=>{
+            try{
+                  if(!chats) {
+                        return
+                  }
+                  const res = await axios.post(BASE_URL + "/task/editMessage/"+ taskId , {senderEmail: user?.data.emailId ,messageText:chats}, {withCredentials:true});
+                  dispatch(addTask(res?.data.data))
+                  setChats('');
+
+                 const projectTasksRes = await axios.post( `${BASE_URL}/task/getProjectTask/${project._id}`, {}, { withCredentials: true });
+                 dispatch(addProjectTask({projectName: project.name,tasks: projectTasksRes.data.data }));
+
+            }catch(er){
+                  console.log(er?.response.datamessage)
             }
       }
 
@@ -80,7 +99,32 @@ const TaskPage = () => {
                </div>
       </div>
 
-<div className='flex justify-center mt-10 items-center w-full'>
+<div className='flex justify-between items-start mt-10  w-full'>
+
+
+{/* CHAT BOX */}
+      <div className='border border-gray-400 relative w-[45%] rounded-lg h-100  bg-gray-50'>
+           {task.messages && (
+            task?.messages.map(message =>(
+             <div key={message._id} className="chat chat-start">
+            <div className="chat-header">
+             {message.senderEmail}
+            </div>
+            <div className="chat-bubble">{message. messageText}.</div>
+           </div>)
+
+            )
+           )}
+
+           <div className='absolute bottom-0 px-2 py-3 border-t border-gray-400 w-full'>
+            <input type='text' value={chats} onChange={(e)=>setChats(e.target.value)} className='input ml-3' placeholder='Type here......' />
+            <button className='btn px-6 ml-4 text-lg' onClick={handleSendChat}>Send</button>
+           </div>
+      </div>
+
+
+
+      {/* TASK BOX  */}
       <div className='border border-gray-400 px-5 py-6 mt-4 rounded-md w-[50%]'>
             <h2 className='font-semibold'>
                   {task.title.toUpperCase()}
