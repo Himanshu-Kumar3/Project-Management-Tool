@@ -39,10 +39,12 @@ const taskSlice = createSlice({
           state.projectTask[projectName].push(tasks);
         }
       }
-    },removeAllTasks(state , action){
+    },
+    removeAllTasks(state , action){
                  state.tasks = [];
                  return
-            },removeTasks(state, action) { // removeTask -> single task ko remove krta hai
+     },
+    removeTasks(state, action) { // removeTask -> single task ko remove krta hai
       const { projectName, task } = action.payload;
       
       // Fix: Update the specific project's tasks, not the entire projectTask object
