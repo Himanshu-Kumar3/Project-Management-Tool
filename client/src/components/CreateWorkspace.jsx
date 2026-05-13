@@ -31,12 +31,6 @@ const CreateWorkspace = () => {
       <div className=' absolute top-[22%]  left-[40%] w-93 h-85  '>
     <form onSubmit={(e)=> e.preventDefault()} className=' bg-white p-4 w-90  rounded-2xl '>
       <h2 className='text-black -mt-1 font-semibold'>Create organization</h2>
-      <fieldset className="fieldset">
-      <legend className="fieldset-legend text-black">Name</legend>
-      <input type="text" className="input bg-white text-black border-black"  placeholder='Organization name' 
-      value={name} 
-      onChange={(e)=>setName(e.target.value)} />
-      </fieldset>
      <fieldset className="fieldset">
       <legend className="fieldset-legend text-black">Name</legend>
       <input type="text" className="input bg-white text-black border-black"  placeholder='Organization name' 

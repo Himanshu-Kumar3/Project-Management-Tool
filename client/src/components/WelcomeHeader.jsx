@@ -8,7 +8,7 @@ const WelcomeHeader = () => {
     <div data-theme="light" className='bg-white '>
       <div className="navbar  shadow-md">
          <div className="flex pl-6">
-           <img src="/navbar-logo.png" alt="navbar-logo"  className='h-12 w-40 '/>
+           <img src="/Header-logo.png" alt="navbar-logo"  className='h-12 w-40 '/>
          </div>
 
 
