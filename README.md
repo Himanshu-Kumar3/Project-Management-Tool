@@ -1,5 +1,17 @@
 # This is a repo for Project management tool
 
+## To install and run project into your computer 
+- download the zip file of this project
+- open the folder into github
+- split the terminal into two parts : one for client and one for the server
+- in client type : " npm install "
+- in server type : " npm install"
+- and also in server type " npm run dev "
+   - if it shows in terminal that server is running in port .....
+   - than its completely fine
+- now in client type terminal type " npm run dev"
+- select the url given by terminal  , copy and paste it into browser  
+
 ## Table Of Content
 
 ## Technology Stack
