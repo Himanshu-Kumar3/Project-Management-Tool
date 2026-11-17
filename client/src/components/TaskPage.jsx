@@ -1,0 +1,155 @@
+import axios from 'axios';
+import React from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { BASE_URL } from '../utils/constants';
+import { addProjectTask, addTask,  removeTasks } from '../utils/taskSlice';
+
+const TaskPage = () => {
+      const {taskId} = useParams();
+      const dispatch = useDispatch();
+
+      const [chats , setChats] = useState('');
+      const [displayedChats , setDisplayedChats] = useState([])
+
+      const formatDate = (dateString) => {
+       const date = new Date(dateString);
+       const day = date.getDate();
+       const month = date.toLocaleString('default', { month: 'short' });
+       const year = date.getFullYear();
+       return `${day} ${month}, ${year}`;
+      };
+
+      const user = useSelector(store => store.user)
+      const {task} = useSelector(store => store.task);
+      const {project} = useSelector(store => store.project);
+      const navigate = useNavigate();
+
+      const handleTaskCompleted = async()=>{
+            if (!taskId || !project) return;
+            try{
+
+                 const res = await axios.post(BASE_URL+"/task/editTask/"+ taskId ,{status:'done'} , {withCredentials:true});
+                 dispatch(addTask(res.data.data))
+
+                 const projectTasksRes = await axios.post( `${BASE_URL}/task/getProjectTask/${project._id}`, {}, { withCredentials: true });
+                 dispatch(addProjectTask({projectName: project.name,tasks: projectTasksRes.data.data }));
+                 navigate('/projects/project/' + project._id)
+
+            }catch(er){
+                  console.log(er?.response);
+                  return null;
+            }
+            
+      };
+
+      const handleTaskDelete = async()=>{
+            const res = await axios.delete(BASE_URL+"/task/deleteTask/"+ taskId  , {withCredentials:true});
+
+            dispatch(removeTasks({projectName :project.name,
+                  task : res?.data?.data}))
+            navigate('/projects/project/' + project._id)
+
+      }
+      const getTaskInfo = async()=>{
+            try{
+
+                  const res = await axios.post(BASE_URL+"/project/getTask/"+taskId , {} , {withCredentials:true});
+                  dispatch(addTask(res.data.data));
+            
+            }catch(er){
+                  console.log(er.message)
+            }
+      }
+
+      const handleSendChat = async()=>{
+            try{
+                  if(!chats) {
+                        return
+                  }
+                  const res = await axios.post(BASE_URL + "/task/editMessage/"+ taskId , {senderEmail: user?.data.emailId ,messageText:chats}, {withCredentials:true});
+                  dispatch(addTask(res?.data.data))
+                  setChats('');
+
+                 const projectTasksRes = await axios.post( `${BASE_URL}/task/getProjectTask/${project._id}`, {}, { withCredentials: true });
+                 dispatch(addProjectTask({projectName: project.name,tasks: projectTasksRes.data.data }));
+
+            }catch(er){
+                  console.log(er?.response.datamessage)
+            }
+      }
+
+      useState(()=>{
+            getTaskInfo();
+
+      },[]);
+
+      if(!task && !project) return;
+      
+
+  return (
+    task && <div className='pl-10 pr-8 pb-10 pt-4 '>
+      <div className='flex justify-between items-center'>
+            <h1 className='text-xl font-bold'>TASK</h1>
+            <div className='my-4 flex justify-end'>
+                 <button className='btn bg-red-700 hover:bg-base-300 shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2   mr-4 'onClick={()=>handleTaskDelete(task)} >Delete Task</button>
+               <button   className='btn bg-blue-500  text-white shadow-xs  border border-gray-300 rounded-sm text-sm font-semibold cursor-pointer px-3 py-2'onClick={()=>handleTaskCompleted(task)}>{task.status ==='done'?"Task Completed":"Complete Task"}</button>
+
+               </div>
+      </div>
+
+<div className='flex justify-between items-start mt-10  w-full'>
+
+
+{/* CHAT BOX */}
+      <div className='border border-gray-400 relative w-[45%] rounded-lg h-100  bg-gray-50'>
+           {task.messages && (
+            task?.messages.map(message =>(
+             <div key={message._id} className="chat chat-start">
+            <div className="chat-header">
+             {message.senderEmail}
+            </div>
+            <div className="chat-bubble">{message. messageText}.</div>
+           </div>)
+
+            )
+           )}
+
+           <div className='absolute bottom-0 px-2 py-3 border-t border-gray-400 w-full'>
+            <input type='text' value={chats} onChange={(e)=>setChats(e.target.value)} className='input ml-3' placeholder='Type here......' />
+            <button className='btn px-6 ml-4 text-lg' onClick={handleSendChat}>Send</button>
+           </div>
+      </div>
+
+
+
+      {/* TASK BOX  */}
+      <div className='border border-gray-400 px-5 py-6 mt-4 rounded-md w-[50%]'>
+            <h2 className='font-semibold'>
+                  {task.title.toUpperCase()}
+            </h2>
+
+            <ul className='flex mt-4 items-baseline'>
+                  <li className='px-3 py-1 mr-2 rounded-sm bg-gray-300 text-black text-xs '>{task.category.toUpperCase()}</li>
+                  <li className='px-3 py-1 mr-2 rounded-sm bg-blue-300 text-black text-xs'>{task.priority.toUpperCase()}</li>
+                  <li className='px-3 py-1 mr-2 rounded-sm bg-emerald-400 text-black text-xs '>{task.status.toUpperCase()}</li>
+            </ul>
+
+            <p className='text-sm text-gray-400 mt-3 pl-2'>{task.discription}</p>
+
+            <div className='flex justify-between mt-4 rounded-md items-center py-2 px-3 bg-base-300 text-content-200'>
+                  <h2 className='font-semibold'>{task.assignedTo}</h2>
+                  <p className='font-semibold'>{formatDate(task.dueDate)}</p>
+            </div>
+
+      </div>
+
+</div>
+      
+
+    </div>
+  )
+}
+
+export default TaskPage;
