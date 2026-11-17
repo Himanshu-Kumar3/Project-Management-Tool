@@ -12,7 +12,6 @@
 - now in client type terminal type " npm run dev"
 - select the url given by terminal  , copy and paste it into browser  
 
-## Table Of Content
 
 ## Technology Stack
  - REACT (Frontend)
@@ -42,4 +41,5 @@
 
 
  ## Contributors
-  - Himanshu Kumar 
+  - Himanshu Kumar /vinay
+
